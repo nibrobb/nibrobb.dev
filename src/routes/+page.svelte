@@ -1,26 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import type { components } from '@octokit/openapi-types';
-
-	type GitHubRepo = components['schemas']['repository'];
-	let repos: GitHubRepo[] = [];
-	let loading = true;
-	let error = '';
-
-	onMount(async () => {
-		try {
-			const res = await fetch('https://api.github.com/users/nibrobb/repos?per_page=100');
-			if (!res.ok) throw new Error('Failed to fetch repos');
-			const data: GitHubRepo[] = await res.json();
-			repos = data
-				.sort((a, b) => (b.stargazers_count ?? 0) - (a.stargazers_count ?? 0))
-				.slice(0, 4);
-		} catch {
-			error = 'Could not load repositories.';
-		} finally {
-			loading = false;
-		}
-	});
+	export let data;
 </script>
 
 <div class="construction-container">
@@ -37,26 +16,20 @@
 		</p>
 
 		<div class="repo-cards-section">
-			{#if loading}
-				<div class="repo-loading">Loading popular repositories…</div>
-			{:else if error}
-				<div class="repo-error">{error}</div>
-			{:else}
-				<div class="repo-cards">
-					{#each repos as repo (repo.id)}
-						<a
-							class="repo-card"
-							href="{repo.html_url}?utm_source=nibrobb.dev"
-							target="_blank"
-							rel="noopener"
-						>
-							<div class="repo-title">{repo.name}</div>
-							<div class="repo-desc">{repo.description || 'No description provided.'}</div>
-							<div class="repo-stars">⭐ {repo.stargazers_count}</div>
-						</a>
-					{/each}
-				</div>
-			{/if}
+			<div class="repo-cards">
+				{#each data.repos as repo (repo.url)}
+					<a
+						class="repo-card"
+						href={repo.url +'?utm_source=nibrobb.dev'}
+						target="_blank"
+						rel="noopener"
+					>
+						<div class="repo-title">{repo.name}</div>
+						<div class="repo-desc">{repo.description || 'No description provided.'}</div>
+						<div class="repo-stars">⭐ {repo.stars}</div>
+					</a>
+				{/each}
+			</div>
 		</div>
 
 		<div class="progress-bar">

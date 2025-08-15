@@ -1,3 +1,7 @@
+:root {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 /* Under Construction Page Styles */
 .construction-container {
 	display: flex;
@@ -5,7 +9,6 @@
 	align-items: center;
 	min-height: 100vh;
 	background: linear-gradient(135deg, #ff9a00 0%, #ffad33 100%);
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .construction-content {
@@ -216,5 +219,54 @@ p {
 
 	p {
 		font-size: 1rem;
+	}
+}
+
+.cookie-banner {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100vw;
+	max-width: 100vw;
+	background: #fff7e6;
+	color: #333;
+	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.07);
+	padding: 1rem 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 1rem;
+	z-index: 1000;
+	box-sizing: border-box;
+}
+.cookie-banner p {
+	margin: 0;
+	flex: 1 1 auto;
+	word-break: break-word;
+}
+.cookie-accept {
+	background: #ff9a00;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 0.5rem 1.2rem;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background 0.2s;
+	flex-shrink: 0;
+	margin-left: 1rem;
+}
+.cookie-accept:hover {
+	background: #e68900;
+}
+@media (max-width: 600px) {
+	.cookie-banner {
+		flex-direction: column;
+		align-items: stretch;
+		padding: 1rem;
+	}
+	.cookie-accept {
+		width: 100%;
+		margin: 0.5rem 0 0 0;
 	}
 }

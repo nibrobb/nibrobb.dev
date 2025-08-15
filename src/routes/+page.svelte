@@ -20,7 +20,7 @@
 				{#each data.repos as repo (repo.url)}
 					<a
 						class="repo-card"
-						href={repo.url +'?utm_source=nibrobb.dev'}
+						href={repo.url + '?utm_source=nibrobb.dev'}
 						target="_blank"
 						rel="noopener"
 					>

@@ -44,11 +44,10 @@
 
 	onMount(() => {
 		showCookieBanner = localStorage.getItem(cookieName) === null;
+		if (localStorage.getItem(cookieName) === 'true') {
+			loadGtag();
+		}
 	});
-
-	if (localStorage.getItem(cookieName) === 'true') {
-		loadGtag();
-	}
 </script>
 
 <svelte:head>

@@ -26,7 +26,7 @@
 	function loadGtag() {
 		if (typeof window === 'undefined') return;
 		const gtagScriptSrc = 'https://www.googletagmanager.com/gtag/js?id=G-N4EFB5FV81';
-		const existingScript = document.querySelector(`script[src="${gtagScriptSrc}"]`)
+		const existingScript = document.querySelector(`script[src="${gtagScriptSrc}"]`);
 		if (window.gtag || existingScript) return; // Prevent double loading
 		const script = document.createElement('script');
 		script.async = true;

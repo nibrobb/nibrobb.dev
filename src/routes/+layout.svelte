@@ -8,13 +8,18 @@
 	let { children } = $props();
 
 	let showCookieBanner = $state(false);
+	let cookieName = 'acceptAnalyticsCookies';
 
 	if (typeof window !== 'undefined') {
-		showCookieBanner = localStorage.getItem('acceptAnalyticsCookies') !== 'true';
+		// Only show banner if cookie is not set
+		showCookieBanner = localStorage.getItem(cookieName) === null;
 	}
-
+	function declineCookies() {
+		localStorage.setItem(cookieName, 'false');
+		showCookieBanner = false;
+	}
 	function acceptCookies() {
-		localStorage.setItem('acceptAnalyticsCookies', 'true');
+		localStorage.setItem(cookieName, 'true');
 		showCookieBanner = false;
 		loadGtag();
 	}
@@ -36,7 +41,7 @@
 		};
 	}
 
-	if (typeof window !== 'undefined' && localStorage.getItem('acceptAnalyticsCookies') === 'true') {
+	if (typeof window !== 'undefined' && localStorage.getItem(cookieName) === 'true') {
 		loadGtag();
 	}
 </script>
@@ -49,7 +54,8 @@
 
 {#if showCookieBanner}
 	<div class="cookie-banner">
-		<p>This site uses cookies for analytics. By continuing, you accept this.</p>
+		<p>This site uses cookies for analytics.</p>
+		<button class="cookie-decline" onclick={declineCookies}>Decline</button>
 		<button class="cookie-accept" onclick={acceptCookies}>Accept</button>
 	</div>
 {/if}

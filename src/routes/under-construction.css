@@ -244,8 +244,23 @@ p {
 	flex: 1 1 auto;
 	word-break: break-word;
 }
+.cookie-decline {
+	background: #e08700;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 0.5rem 1.2rem;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background 0.2s;
+	flex-shrink: 0;
+	margin-left: 1rem;
+}
+.cookie-decline:hover {
+	background: #a16101;
+}
 .cookie-accept {
-	background: #ff9a00;
+	background: #1fb80a;
 	color: #fff;
 	border: none;
 	border-radius: 6px;
@@ -257,7 +272,7 @@ p {
 	margin-left: 1rem;
 }
 .cookie-accept:hover {
-	background: #e68900;
+	background: #188d08;
 }
 @media (max-width: 600px) {
 	.cookie-banner {

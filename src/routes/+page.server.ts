@@ -9,7 +9,7 @@ export const load: PageServerLoad = async () => {
 		username: 'nibrobb',
 		per_page: 100,
 		headers: {
-			'user-agent': 'nibrobb.dev'
+			'user-agent': 'nibrobb.dev/1.0'
 		}
 	});
 

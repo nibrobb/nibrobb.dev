@@ -8,7 +8,7 @@
 		<h1>Under Construction</h1>
 		<p>This website is currently being built. Please check back soon!</p>
 		<p class="github-link">
-			In the meantime, check out some of my <a href="https://github.com/nibrobb"target="_blank"rel="noopener">GitHub</a> projects🚀
+			In the meantime, check out some of my <a href="https://github.com/nibrobb" target="_blank" rel="noopener">GitHub</a> projects🚀
 		</p>
 
 		<div class="repo-cards-section">

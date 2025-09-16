@@ -3,13 +3,13 @@
 </script>
 
 <main>
-	<div aria-hidden="true" class="construction-container">
-		<div aria-hidden="true" class="construction-content">
+	<div class="construction-container">
+		<div class="construction-content">
 			<div class="worker-icon">🚧👷‍♂️🚧</div>
 			<h1>Under Construction</h1>
 			<p>This website is currently being built. Please check back soon!</p>
 			<p class="github-link">
-				In the meantime, check out some of my <a href="https://github.com/nibrobb" target="_blank" rel="noopener">GitHub</a> projects🚀
+				In the meantime, check out some of my <a tabindex="0" href="https://github.com/nibrobb" target="_blank" rel="noopener">GitHub</a> projects🚀
 			</p>
 
 			<div class="repo-cards-section">

@@ -2,6 +2,8 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import './under-construction.css';
 
+	import { onMount } from 'svelte';
+
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 	injectSpeedInsights();
 
@@ -10,10 +12,7 @@
 	let showCookieBanner = $state(false);
 	let cookieName = 'acceptAnalyticsCookies';
 
-	if (typeof window !== 'undefined') {
-		// Only show banner if cookie is not set
-		showCookieBanner = localStorage.getItem(cookieName) === null;
-	}
+
 	function declineCookies() {
 		localStorage.setItem(cookieName, 'false');
 		showCookieBanner = false;
@@ -43,7 +42,11 @@
 		};
 	}
 
-	if (typeof window !== 'undefined' && localStorage.getItem(cookieName) === 'true') {
+	onMount(() => {
+		showCookieBanner = localStorage.getItem(cookieName) === null;
+	});
+
+	if (localStorage.getItem(cookieName) === 'true') {
 		loadGtag();
 	}
 </script>

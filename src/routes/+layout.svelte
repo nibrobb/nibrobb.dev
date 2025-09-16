@@ -26,10 +26,12 @@
 
 	function loadGtag() {
 		if (typeof window === 'undefined') return;
-		if (window.gtag) return; // Prevent double loading
+		const gtagScriptSrc = 'https://www.googletagmanager.com/gtag/js?id=G-N4EFB5FV81';
+		const existingScript = document.querySelector(`script[src="${gtagScriptSrc}"]`)
+		if (window.gtag || existingScript) return; // Prevent double loading
 		const script = document.createElement('script');
 		script.async = true;
-		script.src = 'https://www.googletagmanager.com/gtag/js?id=G-N4EFB5FV81';
+		script.src = gtagScriptSrc;
 		document.head.appendChild(script);
 		script.onload = () => {
 			window.dataLayer = window.dataLayer || [];

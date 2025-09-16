@@ -12,7 +12,6 @@
 	let showCookieBanner = $state(false);
 	let cookieName = 'acceptAnalyticsCookies';
 
-
 	function declineCookies() {
 		localStorage.setItem(cookieName, 'false');
 		showCookieBanner = false;
@@ -35,7 +34,7 @@
 		document.head.appendChild(script);
 		script.onload = () => {
 			window.dataLayer = window.dataLayer || [];
-			window.gtag = function (...args: any[]) {
+			window.gtag = function (...args) {
 				window.dataLayer.push(args);
 			};
 			window.gtag('js', new Date());

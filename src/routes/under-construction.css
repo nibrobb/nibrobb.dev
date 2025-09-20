@@ -4,6 +4,7 @@
 	--color-light: #f8f8f8;
 	--color-dark: #0a0a0a;
 	--color-light-orange: #ffeacb;
+	--color-dark-orange: #a26200;
 	--color-background-light: #fff7e6;
 	--box-radius: 14px;
 }
@@ -119,7 +120,7 @@ p {
 	font-weight: bold;
 	font-size: 1.1rem;
 	margin-bottom: 0.4rem;
-	color: #a26200;
+	color: var(--color-dark-orange);
 }
 
 .repo-desc {
@@ -132,7 +133,7 @@ p {
 
 .repo-stars {
 	font-size: 0.95rem;
-	color: #e68900;
+	color: var(--color-dark-orange);
 	font-weight: 500;
 	margin-top: auto;
 }

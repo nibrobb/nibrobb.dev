@@ -9,7 +9,12 @@
 			<h1>Under Construction</h1>
 			<p>This website is currently being built. Please check back soon!</p>
 			<p class="github-link">
-				In the meantime, check out some of my <a tabindex="0" href="https://github.com/nibrobb" target="_blank" rel="noopener">GitHub</a> projects🚀
+				In the meantime, check out some of my
+				<!-- prettier-ignore -->
+				<a tabindex="0" href="https://github.com/nibrobb" target="_blank" rel="noopener">
+					GitHub
+				</a>
+				projects🚀
 			</p>
 
 			<div class="repo-cards-section">
@@ -35,7 +40,7 @@
 			<div class="progress-bar">
 				<div class="progress-fill"></div>
 			</div>
-			<p class="progress-text">Progress: 30%</p>
+			<p class="progress-text">Progress: 33%</p>
 		</div>
 	</div>
 </main>

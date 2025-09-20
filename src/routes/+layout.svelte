@@ -1,7 +1,6 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.svg';
 	import './under-construction.css';
-
 	import { onMount } from 'svelte';
 
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
@@ -27,14 +26,14 @@
 		const tag = 'G-N4EFB5FV81';
 		const gtagScriptSrc = `https://www.googletagmanager.com/gtag/js?id=${tag}`;
 		const existingScript = document.querySelector(`script[src="${gtagScriptSrc}"]`);
-		if (window.gtag || existingScript) return; // Prevent double loading
+		if (existingScript) return; // Prevent double loading
 		const script = document.createElement('script');
 		script.async = true;
 		script.src = gtagScriptSrc;
 		document.head.appendChild(script);
 		script.onload = () => {
 			window.dataLayer = window.dataLayer || [];
-			window.gtag = function (...args) {
+			window.gtag = function (_command, ...args) {
 				window.dataLayer.push(args);
 			};
 			window.gtag('js', new Date());
@@ -59,8 +58,8 @@
 {#if showCookieBanner}
 	<div class="cookie-banner">
 		<p>This site uses cookies for analytics.</p>
-		<button class="cookie-decline" onclick={declineCookies}>Decline</button>
-		<button class="cookie-accept" onclick={acceptCookies}>Accept</button>
+		<button class="cookie-decline cookie-button" onclick={declineCookies}>Decline</button>
+		<button class="cookie-accept cookie-button" onclick={acceptCookies}>Accept</button>
 	</div>
 {/if}
 

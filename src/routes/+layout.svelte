@@ -1,5 +1,6 @@
 <script lang="ts">
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon_light from '$lib/assets/favicon_light.png';
+	import favicon_dark from '$lib/assets/favicon_dark.png';
 	import './under-construction.css';
 	import { onMount } from 'svelte';
 
@@ -50,7 +51,9 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" href={favicon_light} media="(prefers-color-scheme: dark)"/>
+	<link rel="icon" href={favicon_dark} media="(prefers-color-scheme: light)"/>
+	
 </svelte:head>
 
 {@render children?.()}

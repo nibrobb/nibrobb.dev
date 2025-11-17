@@ -1,10 +1,6 @@
 import axios from 'axios';
 import type { RequestHandler } from './$types';
 
-export const config = {
-    runtime: "edge"
-};
-
 export const GET: RequestHandler = async ({ request }) => {
     const url = new URL(request.url);
     const code = url.searchParams.get('code');

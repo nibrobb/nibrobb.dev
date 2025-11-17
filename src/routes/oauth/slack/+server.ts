@@ -2,10 +2,6 @@ import type { RequestHandler } from './$types';
 import 'dotenv/config';
 import { redirect } from '@sveltejs/kit';
 
-export const config = {
-    runtime: "edge"
-};
-
 export const GET: RequestHandler = async ({ request }) => {
     const user_scopes = [
         "users.profile:read",

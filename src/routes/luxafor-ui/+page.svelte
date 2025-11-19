@@ -1,10 +1,11 @@
+<script lang="ts">
+	import { resolve } from '$app/paths';
+
+	// import type { PageProps } from './$types';
+	// let { data }: PageProps = $props();
+</script>
+
 <main>
-	<script lang="ts">
-		import type { PageProps } from './$types';
-
-		let { data }: PageProps = $props();
-	</script>
-
 	<style>
 		:root {
 			background-color: #181818;
@@ -28,7 +29,7 @@
 	<div class="luxafor-ui-content">
 		<h1 class="heading-text">Luxafor UI</h1>
 		<!-- <a href="https://slack.com/oauth/v2/authorize?client_id=7816636666498.7805940374471&scope=users.profile:read&user_scope=users.profile:read,users.profile:write,users:write"> -->
-		<a href="/oauth/slack">
+		<a href={resolve(`/oauth/slack`)}>
 			<img
 				style="margin: 20px"
 				alt="Add to Slack"

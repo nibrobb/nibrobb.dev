@@ -35,7 +35,9 @@
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
+		"@dotenvx/dotenvx": "^1.51.1",
 		"@octokit/rest": "^22.0.0",
+		"@upstash/redis": "^1.35.6",
 		"@vercel/speed-insights": "^1.2.0",
 		"axios": "^1.13.2",
 		"dotenv": "^17.2.1"

@@ -14,21 +14,21 @@ export const GET: RequestHandler = async ({ request }) => {
 	const entry: SlackSession | null = await redis.get(entry_key);
 
 	if (!entry) {
-		return Response.json({ status: 'invalid' });
+		return Response.json({ status: SessionState.Invalid });
 	}
 
 	if (entry.session_secret && entry.session_secret !== session_secret) {
-		return Response.json({ status: 'pending' });
+		return Response.json({ status: SessionState.Pending });
 	}
 
 	if (entry?.status === SessionState.Pending) {
-		return Response.json({ status: 'pending' });
+		return Response.json({ status: entry.status });
 	}
 
-	if (entry?.status === SessionState.Successful) {
+	if (entry?.status === SessionState.Ok) {
 		// await redis.del(entry_key);
-		return Response.json({ status: 'ok', tokens: entry.tokens });
+		return Response.json({ status: entry.status, tokens: entry.tokens });
 	}
 
-	return Response.json({ status: 'error' });
+	return Response.json({ status: SessionState.Error });
 };

@@ -11,11 +11,14 @@ export const GET: RequestHandler = async ({ request }) => {
 	const state = `${session_id}::${session_secret}`;
 
 	const user_scopes = ['users.profile:read', 'users.profile:write'];
+	const bot_scopes = ['chat:write'];
 	const user_scopes_string = user_scopes.join(',');
+	const bot_scopes_string = bot_scopes.join(',');
 
 	const redirect_url = new URL('https://slack.com/oauth/v2/authorize');
 	redirect_url.searchParams.set('client_id', SLACK_CLIENT_ID);
 	redirect_url.searchParams.set('user_scope', user_scopes_string);
+	redirect_url.searchParams.set('scope', bot_scopes_string);
 	redirect_url.searchParams.set('redirect_uri', SLACK_REDIRECT_URI);
 	redirect_url.searchParams.set('state', state);
 

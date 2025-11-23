@@ -1,6 +1,8 @@
 export enum SessionState {
 	Pending = 'pending',
-	Successful = 'done'
+	Ok = 'ok',
+	Invalid = 'invalid',
+	Error = 'error'
 }
 
 export type SlackUserToken = string | undefined;

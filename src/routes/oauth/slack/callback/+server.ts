@@ -43,19 +43,22 @@ export const GET: RequestHandler = async ({ request }) => {
 		)
 		.then((r) => r.data);
 
-	if (token_response.ok) {
+	if (token_response.ok === true) {
 		console.debug(token_response);
-		// Store token
+		// Store tokens
 		const to_store: SlackSession = {
-			status: SessionState.Successful,
-			tokens: token_response
+			status: SessionState.Ok,
+			tokens: {
+				user_token: token_response?.authed_user?.access_token,
+				bot_token: token_response?.access_token
+			}
 		};
 		await redis.set(
 			entry_key,
 			to_store,
 			{ ex: 60 } // tokens only need to live briefly
 		);
-		console.debug(`Storing in Redis:\n${JSON.stringify(to_store, null, 4)}`);
+		console.debug(`Storing in Redis:\n${to_store}`);
 
 		// Replace with proper success page
 		return new Response('Slack connected. You can close this window', {

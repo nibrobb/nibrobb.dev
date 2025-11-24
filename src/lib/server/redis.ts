@@ -1,4 +1,4 @@
-import { Redis } from '@upstash/redis';
+import { Redis } from "@upstash/redis";
 
 export const redis = Redis.fromEnv();
-console.debug('Initialized Redis');
+console.debug("Initialized Redis");

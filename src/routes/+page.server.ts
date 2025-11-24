@@ -1,30 +1,30 @@
-import { GITHUB_TOKEN } from '$env/static/private';
-import type { PageServerLoad } from './$types';
-import { Octokit } from '@octokit/rest';
+import { GITHUB_TOKEN } from "$env/static/private";
+import type { PageServerLoad } from "./$types";
+import { Octokit } from "@octokit/rest";
 
 const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
 export const load: PageServerLoad = async () => {
-	const { data: repos } = await octokit.rest.repos.listForUser({
-		username: 'nibrobb',
-		per_page: 100,
-		headers: {
-			'user-agent': 'nibrobb.dev/1.0'
-		}
-	});
+    const { data: repos } = await octokit.rest.repos.listForUser({
+        username: "nibrobb",
+        per_page: 100,
+        headers: {
+            "user-agent": "nibrobb.dev/1.0",
+        },
+    });
 
-	const topRepos = repos
-		.sort((a, b) => {
-			return (b.stargazers_count ?? 0) - (a.stargazers_count ?? 0);
-		})
-		.slice(0, 4);
+    const topRepos = repos
+        .sort((a, b) => {
+            return (b.stargazers_count ?? 0) - (a.stargazers_count ?? 0);
+        })
+        .slice(0, 4);
 
-	return {
-		repos: topRepos.map((repo) => ({
-			name: repo.name,
-			description: repo.description,
-			stars: repo.stargazers_count ?? 0,
-			url: repo.html_url
-		}))
-	};
+    return {
+        repos: topRepos.map((repo) => ({
+            name: repo.name,
+            description: repo.description,
+            stars: repo.stargazers_count ?? 0,
+            url: repo.html_url,
+        })),
+    };
 };

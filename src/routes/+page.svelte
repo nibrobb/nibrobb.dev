@@ -40,7 +40,7 @@
             <div class="progress-bar">
                 <div class="progress-fill"></div>
             </div>
-            <p class="progress-text">Progress: 33%</p>
+            <p class="progress-text">Progress: 42%</p>
         </div>
     </div>
 </main>

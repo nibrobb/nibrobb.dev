@@ -1,22 +1,24 @@
-import axios from 'axios';
+import axios, { HttpStatusCode } from 'axios';
 import type { RequestHandler } from './$types';
 import { redis } from '$lib/server/redis';
 import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET, SLACK_REDIRECT_URI } from '$env/static/private';
 import { SessionState, type SlackSession } from '$lib/types/definitions';
 
-export const GET: RequestHandler = async ({ request }) => {
-	const url = new URL(request.url);
+export const GET: RequestHandler = async ({ url }) => {
+	if (url.searchParams.get('error') == 'access_denied') {
+		return new Response('Authorization aborted', { status: HttpStatusCode.Unauthorized });
+	}
 
 	const code = url.searchParams.get('code');
 	const state = url.searchParams.get('state');
 
-	if (code === null) {
+	if (!code) {
 		console.error('Code was null');
-		return new Response('code was bogus amogus', { status: 400 });
+		return new Response('Invalid request. Missing code', { status: HttpStatusCode.BadRequest });
 	}
-	if (state === null) {
+	if (!state) {
 		console.error('State was null');
-		return new Response('state was missing', { status: 400 });
+		return new Response('Invalid request. Missing state', { status: HttpStatusCode.BadRequest });
 	}
 
 	const [session_id, session_secret] = state.split('::');
@@ -24,10 +26,10 @@ export const GET: RequestHandler = async ({ request }) => {
 	const entry: SlackSession | null = await redis.get(entry_key);
 
 	if (!entry || entry.session_secret !== session_secret) {
-		return new Response('Invalid session', { status: 400 });
+		return new Response('Invalid session', { status: HttpStatusCode.NotFound });
 	}
 
-	// Standard Slack OAuth flow, exchange `code` for user- and/bot tokens
+	// Standard Slack OAuth flow, exchange `code` for access tokens
 	const token_response = await axios
 		.post(
 			'https://slack.com/api/oauth.v2.access',
@@ -60,14 +62,14 @@ export const GET: RequestHandler = async ({ request }) => {
 		);
 		console.debug(`Storing in Redis:\n${to_store}`);
 
-		// Replace with proper success page
+		// TODO: Replace with proper success page
 		return new Response('Slack connected. You can close this window', {
 			headers: { 'Content-Type': 'text/plain' }
 		});
 	} else {
 		console.error('Error from slack redirect');
 		return new Response(`Error fetching token: ${token_response.error}`, {
-			status: 500
+			status: HttpStatusCode.InternalServerError
 		});
 	}
 };

@@ -4,7 +4,7 @@ import { randomBytes } from 'crypto';
 import { BASE_DOMAIN } from '$env/static/private';
 import { SessionState, type SlackSession } from '$lib/types/definitions';
 
-// Create a session used for acquiring OAuth tokens
+// Create a new "SlackAuthSession"
 export const POST: RequestHandler = async () => {
 	const session_id = randomBytes(16).toString('hex');
 	const session_secret = randomBytes(16).toString('hex');
@@ -14,11 +14,7 @@ export const POST: RequestHandler = async () => {
 		status: SessionState.Pending,
 		session_secret
 	};
-	const options = { ex: 300 }; // 5 minutes TTL
-
-	if (import.meta.env.DEV) {
-		console.log(JSON.stringify({ entry_key, entry_value, options }, null, 4));
-	}
+	const options = { ex: 300 }; // TTL: 5 minutes
 
 	await redis.set(entry_key, entry_value, options);
 
@@ -26,5 +22,9 @@ export const POST: RequestHandler = async () => {
 	authorize_url.searchParams.set('session_id', session_id);
 	authorize_url.searchParams.set('session_secret', session_secret);
 
-	return Response.json({ session_id, session_secret, authorize_url });
+	const poll_url = new URL(`${BASE_DOMAIN}/api/slack/session/status`);
+	poll_url.searchParams.set('session_id', session_id);
+	poll_url.searchParams.set('session_secret', session_secret);
+
+	return Response.json({ session_id, session_secret, authorize_url, poll_url });
 };

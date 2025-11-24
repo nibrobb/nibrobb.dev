@@ -1,8 +1,8 @@
+import { GITHUB_TOKEN } from '$env/static/private';
 import type { PageServerLoad } from './$types';
 import { Octokit } from '@octokit/rest';
-import 'dotenv/config';
 
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
 export const load: PageServerLoad = async () => {
 	const { data: repos } = await octokit.rest.repos.listForUser({

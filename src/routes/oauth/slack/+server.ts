@@ -1,10 +1,8 @@
 import type { RequestHandler } from './$types';
-import 'dotenv/config';
 import { redirect } from '@sveltejs/kit';
 import { SLACK_CLIENT_ID, SLACK_REDIRECT_URI } from '$env/static/private';
 
-export const GET: RequestHandler = async ({ request }) => {
-	const url = new URL(request.url);
+export const GET: RequestHandler = async ({ url }) => {
 	const session_id = url.searchParams.get('session_id');
 	const session_secret = url.searchParams.get('session_secret');
 
@@ -22,9 +20,6 @@ export const GET: RequestHandler = async ({ request }) => {
 	redirect_url.searchParams.set('redirect_uri', SLACK_REDIRECT_URI);
 	redirect_url.searchParams.set('state', state);
 
-	console.log(`Redirecting to: ${redirect_url}`);
-	// Redirect the user to slack for authorization,
-	// Slack will upon approval of the app,
-	// redirect back to our /oauth/slack/callback function
+	console.debug(`Redirecting to: ${redirect_url}`);
 	redirect(302, redirect_url);
 };

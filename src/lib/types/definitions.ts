@@ -4,17 +4,14 @@ export enum SessionState {
 	Invalid = 'invalid',
 	Error = 'error'
 }
-
-export type SlackUserToken = string | undefined;
-export type SlackBotToken = string | undefined;
-
-export interface SlackTokens {
+export type SlackUserToken = string;
+export type SlackBotToken = string;
+export type SlackTokens = {
 	user_token?: SlackUserToken;
 	bot_token?: SlackBotToken;
-}
-
-export interface SlackSession {
+};
+export type SlackSession = {
 	status: SessionState;
 	session_secret?: string;
 	tokens?: SlackTokens;
-}
+};

@@ -27,5 +27,5 @@ export const POST: RequestHandler = async () => {
     poll_url.searchParams.set("session_id", session_id);
     poll_url.searchParams.set("session_secret", session_secret);
 
-    return Response.json({ session_id, session_secret, authorize_url, poll_url });
+    return Response.json({ authorize_url, poll_url });
 };

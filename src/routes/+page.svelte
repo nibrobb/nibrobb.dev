@@ -23,7 +23,7 @@
                         <a
                             tabindex="0"
                             class="repo-card"
-                            href={repo.url + "?utm_source=nibrobb.dev"}
+                            href={repo.url + "?ref=nibrobb.dev"}
                             target="_blank"
                             rel="noopener"
                         >

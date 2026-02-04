@@ -1,8 +1,7 @@
 import axios, { HttpStatusCode } from "axios";
 import type { RequestHandler } from "./$types";
-import { redis } from "$lib/server/redis";
-import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET, SLACK_REDIRECT_URI } from "$env/static/private";
-import { SessionState, type SlackSession } from "$lib/types/definitions";
+import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } from "$env/static/private";
+import { redirect } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async ({ url }) => {
     if (url.searchParams.get("error") == "access_denied") {
@@ -14,21 +13,15 @@ export const GET: RequestHandler = async ({ url }) => {
 
     if (!code) {
         console.error("Code was null");
-        return new Response("Invalid request. Missing code", { status: HttpStatusCode.BadRequest });
-    }
-    if (!state) {
-        console.error("State was null");
-        return new Response("Invalid request. Missing state", {
+        return new Response("Invalid request. Missing code", {
             status: HttpStatusCode.BadRequest,
         });
     }
-
-    const [session_id, session_secret] = state.split("::");
-    const entry_key = `slack_session:${session_id}`;
-    const entry: SlackSession | null = await redis.get(entry_key);
-
-    if (!entry || entry.session_secret !== session_secret) {
-        return new Response("Invalid session", { status: HttpStatusCode.NotFound });
+    if (!state) {
+        console.error("State was null. But I don't care");
+        // return new Response("Invalid request. Missing state", {
+        //     status: HttpStatusCode.BadRequest,
+        // });
     }
 
     // Standard Slack OAuth flow, exchange `code` for access tokens
@@ -39,7 +32,7 @@ export const GET: RequestHandler = async ({ url }) => {
                 code,
                 client_id: SLACK_CLIENT_ID,
                 client_secret: SLACK_CLIENT_SECRET,
-                redirect_uri: SLACK_REDIRECT_URI,
+                redirect_uri: `${url.origin}/oauth/slack/callback`,
             },
             {
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -49,30 +42,24 @@ export const GET: RequestHandler = async ({ url }) => {
 
     if (token_response.ok === true) {
         console.debug(token_response);
-        // Store tokens
-        const to_store: SlackSession = {
-            status: SessionState.Ok,
-            tokens: {
-                // Assume (with high certainty) that the objects exist
-                user_token: token_response.authed_user.access_token,
-                bot_token: token_response.access_token,
-            },
-        };
-        await redis.set(
-            entry_key,
-            to_store,
-            { ex: 60 }, // tokens only need to live briefly
-        );
-        console.debug("Storing in Redis:", to_store);
 
-        // TODO: Replace with proper success page
-        return new Response("Slack connected. You can close this window", {
-            headers: { "Content-Type": "text/plain" },
-        });
+        const my_deep_link = new URL("luxafor-ui://auth");
+        my_deep_link.searchParams.set("user_token", token_response.authed_user.access_token);
+        my_deep_link.searchParams.set("bot_token", token_response.access_token);
+
+        redirect(302, my_deep_link);
+
+        // TODO: Redirect to a proper success page,
+        // send the OAuth tokens to the page (secretly)
+        // and have _that_ page redirect to the deep-link
     } else {
         console.error("Error from slack redirect");
-        return new Response(`Error fetching token: ${token_response.error}`, {
+        // TODO: Replace with a real .svelte error page
+        return new Response(`<h1>Error fetching token: ${token_response.error}</h1>`, {
             status: HttpStatusCode.InternalServerError,
+            headers: {
+                "Content-Type": "text/html",
+            },
         });
     }
 };

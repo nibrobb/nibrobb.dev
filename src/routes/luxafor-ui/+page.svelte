@@ -27,7 +27,7 @@
     </style>
 
     <div class="luxafor-ui-content">
-        <h1 class="heading-text">Luxafor UI</h1>
+        <h1 class="heading-text">Luxafor-ui</h1>
         <a href={resolve(`/oauth/slack`)}>
             <img
                 style="margin: 20px"

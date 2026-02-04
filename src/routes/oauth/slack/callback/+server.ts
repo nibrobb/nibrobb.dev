@@ -47,11 +47,10 @@ export const GET: RequestHandler = async ({ url }) => {
         my_deep_link.searchParams.set("user_token", token_response.authed_user.access_token);
         my_deep_link.searchParams.set("bot_token", token_response.access_token);
 
-        redirect(302, my_deep_link);
-
         // TODO: Redirect to a proper success page,
         // send the OAuth tokens to the page (secretly)
         // and have _that_ page redirect to the deep-link
+        redirect(302, my_deep_link);
     } else {
         console.error("Error from slack redirect");
         // TODO: Replace with a real .svelte error page

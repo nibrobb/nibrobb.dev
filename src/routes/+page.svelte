@@ -1,5 +1,7 @@
 <script lang="ts">
-    export let data;
+    import type { PageProps } from "./$types.js";
+
+    let { data }: PageProps = $props();
 </script>
 
 <main>
@@ -19,21 +21,27 @@
 
             <div class="repo-cards-section">
                 <div class="repo-cards">
-                    {#each data.repos as repo (repo.url)}
-                        <a
-                            tabindex="0"
-                            class="repo-card"
-                            href={repo.url + "?ref=nibrobb.dev"}
-                            target="_blank"
-                            rel="noopener"
-                        >
-                            <div aria-label={repo.name} class="repo-title">{repo.name}</div>
-                            <div aria-label="{repo.name} description" class="repo-desc">
-                                {repo.description || "No description provided."}
-                            </div>
-                            <div aria-label="Stargazers" class="repo-stars">⭐ {repo.stars}</div>
-                        </a>
-                    {/each}
+                    {#await data.repos then repos}
+                        {#each repos as repo (repo.url)}
+                            <a
+                                tabindex="0"
+                                class="repo-card"
+                                href={repo.html_url + "?ref=nibrobb.dev"}
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                <div aria-label={repo.name} class="repo-title">{repo.name}</div>
+                                <div aria-label="{repo.name} description" class="repo-desc">
+                                    {repo.description || "No description provided."}
+                                </div>
+                                <div aria-label="Stargazers" class="repo-stars">
+                                    ⭐ {repo.stargazers_count ?? 0}
+                                </div>
+                            </a>
+                        {/each}
+                    {:catch error}
+                        <p>Error loading repos: {error.message}</p>
+                    {/await}
                 </div>
             </div>
 

@@ -4,7 +4,7 @@ import { Octokit } from "@octokit/rest";
 
 const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ setHeaders }) => {
     const { data: repos } = await octokit.rest.repos.listForUser({
         username: "nibrobb",
         per_page: 100,
@@ -13,18 +13,17 @@ export const load: PageServerLoad = async () => {
         },
     });
 
-    const topRepos = repos
+    const top_repos = repos
         .sort((a, b) => {
             return (b.stargazers_count ?? 0) - (a.stargazers_count ?? 0);
         })
         .slice(0, 4);
 
+    setHeaders({
+        "cache-control": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
+    });
+
     return {
-        repos: topRepos.map((repo) => ({
-            name: repo.name,
-            description: repo.description,
-            stars: repo.stargazers_count ?? 0,
-            url: repo.html_url,
-        })),
+        repos: top_repos,
     };
 };

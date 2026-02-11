@@ -5,6 +5,24 @@
     // let { data }: PageProps = $props();
 </script>
 
+<svelte:head>
+    <link rel="canonical" href="https://www.nibrobb.dev/luxafor-ui" />
+    <meta
+        property="og:image"
+        content="https://raw.githubusercontent.com/nibrobb/luxafor-ui/refs/heads/slack-integration/public/gui.png"
+    />
+    <meta
+        property="og:image:alt"
+        content="A Windows® application with eight buttons in a vertical 
+        arrangement, different colors, the penultimate button glows bright 
+        green mirroring the lamp's current setting "
+    />
+    <meta property="og:title" content="Luxafor-ui" />
+    <meta property="og:url" content="https://www.nibrobb.dev/luxafor-ui" />
+    <meta property="og:description" content="Luxafor-ui is an dashboard for your Luxafor FLAG™" />
+    <meta property="og:locale" content="en_US" />
+</svelte:head>
+
 <main>
     <style>
         :root {

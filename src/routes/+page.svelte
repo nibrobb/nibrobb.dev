@@ -1,8 +1,16 @@
 <script lang="ts">
     import type { PageProps } from "./$types.js";
-
+    import favicon_light from "$lib/assets/favicon_light.png";
     let { data }: PageProps = $props();
 </script>
+
+<svelte:head>
+    <link rel="canonical" href="https://www.nibrobb.dev" />
+    <meta property="og:image" content={favicon_light} />
+    <meta property="og:image:alt" content="A doodle of a logo resembling a cross" />
+    <meta property="og:title" content="Nibrobb.dev" />
+    <meta property="og:url" content="https://www.nibrobb.dev" />
+</svelte:head>
 
 <main>
     <div class="construction-container">

@@ -75,6 +75,7 @@
     </script>
     <link rel="icon" href={favicon_light} media="(prefers-color-scheme: dark)" />
     <link rel="icon" href={favicon_dark} media="(prefers-color-scheme: light)" />
+    <meta property="og:type" content="website" />
 </svelte:head>
 
 {@render children?.()}

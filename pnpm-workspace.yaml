@@ -1,3 +1,4 @@
+minimumReleaseAge: 20160  # 14 days
 overrides:
     "@isaacs/brace-expansion@<=5.0.0": ">=5.0.1"
     "@sveltejs/kit@>=2.19.0 <=2.49.4": ">=2.49.5"

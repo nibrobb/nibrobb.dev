@@ -1,10 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 # This script assumes it is being run as root,
 #   and that the system has `curl` and `gnupg` installed
 
 set -e  # Exit immediately if a command exits with a non-zero status.
 set -u  # Treat unset variables as an error when substituting
-set -o pipefail  # Fail the whole pipe if only part of a pipe fails
 
 # Check for root
 if [[ $(id -u) -ne 0 ]]; then

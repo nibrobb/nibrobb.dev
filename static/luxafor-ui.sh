@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# This script assumes is is being run as root,
+# This script assumes it is being run as root,
 #   and that the system has `curl` and `gnupg` installed
 
 set -e  # Exit immediately if a command exits with a non-zero status.
@@ -14,14 +14,18 @@ fi
 
 keyring_url=https://github.com/nibrobb/luxafor-ui/releases/download/debian/luxafor-ui-archive-keyring.asc
 keyring_path=/etc/apt/keyrings/luxafor-ui-archive-keyring.pgp
+keyring_tmp=$(mktemp /etc/apt/keyrings/luxafor-ui-archive-keyring.pgp.tmp.XXXXXX)
 
 mkdir -p /etc/apt/keyrings # Might not exist on some systems
 
-if ! curl -fsSL "$keyring_url" | gpg --dearmor > "$keyring_path"; then
+if ! curl -fsSL "$keyring_url" | gpg --dearmor > "$keyring_tmp"; then
+    rm -f "$keyring_tmp"
     echo "Failed to install Luxafor-UI archive keyring"
     exit 1
 fi
 
+chmod 0644 "$keyring_tmp"
+mv -f "$keyring_tmp" "$keyring_path"
 cat <<EOF > /etc/apt/sources.list.d/luxafor-ui.sources
 Types: deb
 URIs: https://github.com/nibrobb/luxafor-ui/releases/download/debian/

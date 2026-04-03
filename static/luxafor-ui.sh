@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # This script assumes it is being run as root,
 #   and that the system has `curl` and `gnupg` installed
 
@@ -7,7 +7,7 @@ set -u  # Treat unset variables as an error when substituting
 set -o pipefail  # Fail the whole pipe if only part of a pipe fails
 
 # Check for root
-if [ $(id -u) -ne 0 ]; then
+if [[ $(id -u) -ne 0 ]]; then
     echo "This script must be run as root"
     exit 1
 fi

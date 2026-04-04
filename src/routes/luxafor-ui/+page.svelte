@@ -40,6 +40,14 @@
             -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
         }
+        #luxafor-ui-img {
+            object-fit: cover;
+            clip-path: inset(3px);
+        }
+        #luxafor-ui-install {
+            font-size: 24pt;
+            color: white;
+        }
     </style>
 
     <div class="luxafor-ui-content">
@@ -55,8 +63,16 @@
             />
         </a>
         <img
-            src="https://raw.githubusercontent.com/nibrobb/luxafor-ui/refs/heads/slack-integration/public/gui.png"
+            id="luxafor-ui-img"
+            src="https://raw.githubusercontent.com/nibrobb/luxafor-ui/refs/heads/tauri/public/gui.png"
             alt="Illustration of the Luxafor-ui app"
         />
+        <a 
+            rel="external"
+            href="https://github.com/nibrobb/luxafor-ui/tree/debian-repo?tab=readme-ov-file#installation"
+            target="_blank"
+        >
+            <h2 id="luxafor-ui-install">Install</h2>
+        </a>
     </div>
 </main>

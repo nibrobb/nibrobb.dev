@@ -6,7 +6,7 @@ set -e  # Exit immediately if a command exits with a non-zero status.
 set -u  # Treat unset variables as an error when substituting
 
 # Check for root
-if [[ $(id -u) -ne 0 ]]; then
+if [ $(id -u) -ne 0 ]; then
     echo "This script must be run as root"
     exit 1
 fi

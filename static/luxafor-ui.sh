@@ -32,4 +32,6 @@ Suites: ./
 Signed-By: $keyring_path
 EOF
 
+rm -f "$keyring_tmp"
+
 apt-get update && apt-get install -y luxafor-ui

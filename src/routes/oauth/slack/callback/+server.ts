@@ -1,11 +1,15 @@
-import axios, { HttpStatusCode } from "axios";
+import axios from "axios";
 import type { RequestHandler } from "./$types";
 import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } from "$env/static/private";
 import { redirect } from "@sveltejs/kit";
+import { type OauthV2AccessResponse } from '@slack/web-api';
 
 export const GET: RequestHandler = async ({ url }) => {
+    const errorPageUrl = new URL("/oauth/slack/error", url.origin);
+
     if (url.searchParams.get("error") == "access_denied") {
-        return new Response("Authorization aborted", { status: HttpStatusCode.Unauthorized });
+        errorPageUrl.searchParams.set("reason", "access_denied");
+        throw redirect(302, errorPageUrl.toString());
     }
 
     const code = url.searchParams.get("code");
@@ -13,52 +17,50 @@ export const GET: RequestHandler = async ({ url }) => {
 
     if (!code) {
         console.error("Code was null");
-        return new Response("Invalid request. Missing code", {
-            status: HttpStatusCode.BadRequest,
-        });
+        errorPageUrl.searchParams.set("reason", "missing_code");
+        throw redirect(302, errorPageUrl.toString());
     }
     if (!state) {
         console.error("State was null. But I don't care");
-        // return new Response("Invalid request. Missing state", {
-        //     status: HttpStatusCode.BadRequest,
-        // });
     }
 
-    // Standard Slack OAuth flow, exchange `code` for access tokens
-    const token_response = await axios
-        .post(
-            "https://slack.com/api/oauth.v2.access",
-            {
-                code,
-                client_id: SLACK_CLIENT_ID,
-                client_secret: SLACK_CLIENT_SECRET,
-                redirect_uri: `${url.origin}/oauth/slack/callback`,
-            },
-            {
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            },
-        )
-        .then((r) => r.data);
+    let token_response: OauthV2AccessResponse;
 
-    if (token_response.ok === true) {
+    try {
+        // Standard Slack OAuth flow, exchange `code` for access tokens
+        token_response = await axios
+            .post<OauthV2AccessResponse>(
+                "https://slack.com/api/oauth.v2.access",
+                {
+                    code,
+                    client_id: SLACK_CLIENT_ID,
+                    client_secret: SLACK_CLIENT_SECRET,
+                    redirect_uri: `${url.origin}/oauth/slack/callback`,
+                },
+                {
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                },
+            )
+            .then((r) => r.data);
+    } catch (error) {
+        console.error("OAuth callback failed", error);
+        errorPageUrl.searchParams.set("reason", "oauth_callback_exception");
+        throw redirect(302, errorPageUrl.toString());
+    }
+
+    if (token_response.ok && token_response.authed_user?.access_token && token_response.access_token) {
         console.debug(token_response);
 
-        const my_deep_link = new URL("luxafor-ui://auth");
-        my_deep_link.searchParams.set("user_token", token_response.authed_user.access_token);
-        my_deep_link.searchParams.set("bot_token", token_response.access_token);
-
-        // TODO: Redirect to a proper success page,
-        // send the OAuth tokens to the page (secretly)
-        // and have _that_ page redirect to the deep-link
-        redirect(302, my_deep_link);
-    } else {
-        console.error("Error from slack redirect");
-        // TODO: Replace with a real .svelte error page
-        return new Response(`<h1>Error fetching token: ${token_response.error}</h1>`, {
-            status: HttpStatusCode.InternalServerError,
-            headers: {
-                "Content-Type": "text/html",
-            },
+        const successPageUrl = new URL("/oauth/slack/success", url.origin);
+        const hashParams = new URLSearchParams({
+            user_token: token_response.authed_user.access_token,
+            bot_token: token_response.access_token,
         });
+        successPageUrl.hash = hashParams.toString();
+        throw redirect(302, successPageUrl.toString());
     }
+
+    console.error("Error from slack redirect");
+    errorPageUrl.searchParams.set("reason", token_response.error ?? "oauth_exchange_failed");
+    throw redirect(302, errorPageUrl.toString());
 };

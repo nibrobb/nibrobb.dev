@@ -16,5 +16,5 @@ export const GET: RequestHandler = async () => {
     redirect_url.searchParams.set("redirect_uri", PUBLIC_SLACK_REDIRECT_URI);
 
     console.debug(`Redirecting to: ${redirect_url}`);
-    redirect(302, redirect_url);
+    throw redirect(302, redirect_url);
 };

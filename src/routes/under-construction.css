@@ -162,6 +162,51 @@ p {
     margin-bottom: 0;
 }
 
+.oauth-container {
+    background: linear-gradient(135deg, #2f5f00, #00a88a);
+}
+
+.oauth-error-container {
+    background: linear-gradient(135deg, #6b0039, #d44a2d);
+}
+
+.oauth-content {
+    max-width: 580px;
+}
+
+.oauth-cta {
+    display: inline-block;
+    background: var(--color-background-light);
+    color: var(--color-dark-orange);
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: var(--box-radius);
+    border: 1.5px solid #ffad33;
+    padding: 0.8rem 1.2rem;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.oauth-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 154, 0, 0.15);
+}
+
+.oauth-note {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--color-light-orange);
+}
+
+.oauth-note code {
+    font-size: 0.95rem;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 0.2rem 0.5rem;
+}
+
 @keyframes bounce {
     0%,
     20%,

@@ -19,7 +19,7 @@ fi
 
 sudo install -g root -o root -m 0644 "$keyring_tmp" "$keyring_path"
 
-cat <<EOF > /etc/apt/sources.list.d/luxafor-ui.sources
+sudo cat <<EOF > /etc/apt/sources.list.d/luxafor-ui.sources
 Types: deb
 URIs: https://github.com/nibrobb/luxafor-ui/releases/download/debian/
 Suites: ./

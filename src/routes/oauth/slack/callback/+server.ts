@@ -45,7 +45,7 @@ export const GET: RequestHandler = async ({ url }) => {
         token_response.authed_user?.access_token &&
         token_response.access_token
     ) {
-        console.debug(token_response);
+        console.debug("Slack OAuth token exchange succeeded");
 
         const successPageUrl = new URL("/oauth/slack/success", url.origin);
         const hashParams = new URLSearchParams({

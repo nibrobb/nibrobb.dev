@@ -10,8 +10,7 @@ declare global {
     }
 
     interface Window {
-        dataLayer: unknown[];
-        gtag: Gtag.Gtag;
+        dataLayer: any[];
     }
 }
 

@@ -1,8 +1,7 @@
-import axios from "axios";
 import type { RequestHandler } from "./$types";
 import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } from "$env/static/private";
 import { redirect } from "@sveltejs/kit";
-import { type OauthV2AccessResponse } from '@slack/web-api';
+import { type OauthV2AccessResponse, WebClient } from '@slack/web-api';
 
 export const GET: RequestHandler = async ({ url }) => {
     const errorPageUrl = new URL("/oauth/slack/error", url.origin);
@@ -25,23 +24,16 @@ export const GET: RequestHandler = async ({ url }) => {
     }
 
     let token_response: OauthV2AccessResponse;
+    const slack_client = new WebClient();
 
     try {
         // Standard Slack OAuth flow, exchange `code` for access tokens
-        token_response = await axios
-            .post<OauthV2AccessResponse>(
-                "https://slack.com/api/oauth.v2.access",
-                {
-                    code,
-                    client_id: SLACK_CLIENT_ID,
-                    client_secret: SLACK_CLIENT_SECRET,
-                    redirect_uri: `${url.origin}/oauth/slack/callback`,
-                },
-                {
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                },
-            )
-            .then((r) => r.data);
+        token_response = await slack_client.oauth.v2.access({
+            code,
+            client_id: SLACK_CLIENT_ID,
+            client_secret: SLACK_CLIENT_SECRET,
+            redirect_uri: `${url.origin}/oauth/slack/callback`,
+        });
     } catch (error) {
         console.error("OAuth callback failed", error);
         errorPageUrl.searchParams.set("reason", "oauth_callback_exception");

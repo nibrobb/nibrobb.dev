@@ -1,7 +1,7 @@
 import type { RequestHandler } from "./$types";
 import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } from "$env/static/private";
 import { redirect } from "@sveltejs/kit";
-import { type OauthV2AccessResponse, WebClient } from '@slack/web-api';
+import { type OauthV2AccessResponse, WebClient } from "@slack/web-api";
 
 export const GET: RequestHandler = async ({ url }) => {
     const errorPageUrl = new URL("/oauth/slack/error", url.origin);
@@ -40,7 +40,11 @@ export const GET: RequestHandler = async ({ url }) => {
         throw redirect(302, errorPageUrl.toString());
     }
 
-    if (token_response.ok && token_response.authed_user?.access_token && token_response.access_token) {
+    if (
+        token_response.ok &&
+        token_response.authed_user?.access_token &&
+        token_response.access_token
+    ) {
         console.debug(token_response);
 
         const successPageUrl = new URL("/oauth/slack/success", url.origin);
@@ -56,3 +60,4 @@ export const GET: RequestHandler = async ({ url }) => {
     errorPageUrl.searchParams.set("reason", token_response.error ?? "oauth_exchange_failed");
     throw redirect(302, errorPageUrl.toString());
 };
+

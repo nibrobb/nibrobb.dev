@@ -67,7 +67,7 @@
             src="https://raw.githubusercontent.com/nibrobb/luxafor-ui/refs/heads/tauri/public/gui.png"
             alt="Illustration of the Luxafor-ui app"
         />
-        <a 
+        <a
             rel="external"
             href="https://github.com/nibrobb/luxafor-ui/tree/debian-repo?tab=readme-ov-file#installation"
             target="_blank"

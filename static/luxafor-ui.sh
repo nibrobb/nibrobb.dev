@@ -7,12 +7,12 @@ set -u  # Treat unset variables as an error when substituting
 
 keyring_url=https://github.com/nibrobb/luxafor-ui/releases/download/debian/luxafor-ui-archive-keyring.asc
 keyring_path=/etc/apt/keyrings/luxafor-ui-archive-keyring.gpg
-keyring_tmp=$(mktemp /etc/apt/keyrings/luxafor-ui-archive-keyring.gpg.tmp.XXXXXX)
+keyring_tmp=$(mktemp)
 
 sudo install -m 0755 -d /etc/apt/keyrings # Create parent directories
 
 if ! curl -fsSL "$keyring_url" | gpg --dearmor > "$keyring_tmp"; then
-    rm -f "$keyring_tmp"
+    rm "$keyring_tmp"
     echo "Failed to install Luxafor-UI archive keyring"
     exit 1
 fi
@@ -26,6 +26,6 @@ Suites: ./
 Signed-By: $keyring_path
 EOF
 
-rm -f "$keyring_tmp"
+rm -v "$keyring_tmp"
 
 sudo apt-get update && sudo apt-get install -y luxafor-ui

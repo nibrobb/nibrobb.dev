@@ -60,4 +60,3 @@ export const GET: RequestHandler = async ({ url }) => {
     errorPageUrl.searchParams.set("reason", token_response.error ?? "oauth_exchange_failed");
     throw redirect(302, errorPageUrl.toString());
 };
-

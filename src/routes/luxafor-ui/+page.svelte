@@ -39,7 +39,7 @@
             />
         </a>
         <img
-            src="https://raw.githubusercontent.com/nibrobb/luxafor-ui/refs/heads/slack-integration/public/gui.png"
+            src="https://raw.githubusercontent.com/nibrobb/luxafor-ui/refs/heads/tauri/public/gui.png"
             alt="Illustration of the Luxafor-ui app"
         />
     </div>

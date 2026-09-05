@@ -17,7 +17,11 @@
         }
 
         // Remove OAuth tokens from the URL ASAP so other scripts can't read them.
-        history.replaceState(null, "", window.location.pathname + window.location.search);
+        history.replaceState(
+            null,
+            "",
+            window.location.pathname + window.location.search,
+        );
 
         const deepLinkUrl = new URL("luxafor-ui://auth");
 
@@ -43,7 +47,9 @@
             <p>Your workspace is authorized. We are opening Luxafor-ui now.</p>
 
             {#if hasTokens}
-                <a class="oauth-cta" rel="external" href={deepLink}>Open Luxafor-ui manually</a>
+                <a class="oauth-cta" rel="external" href={deepLink}
+                    >Open Luxafor-ui manually</a
+                >
             {:else}
                 <p class="oauth-note">
                     OAuth tokens were not found. Please retry from the

@@ -1,13 +1,16 @@
 <script lang="ts">
     import type { PageProps } from "./$types.js";
-    import favicon_light from "$lib/assets/favicon_light.png";
+    import favicon_light from "#lib/assets/favicon_light.png";
     let { data }: PageProps = $props();
 </script>
 
 <svelte:head>
     <link rel="canonical" href="https://www.nibrobb.dev" />
     <meta property="og:image" content={favicon_light} />
-    <meta property="og:image:alt" content="A doodle of a logo resembling a cross" />
+    <meta
+        property="og:image:alt"
+        content="A doodle of a logo resembling a cross"
+    />
     <meta property="og:title" content="Nibrobb.dev" />
     <meta property="og:url" content="https://www.nibrobb.dev" />
 </svelte:head>
@@ -17,7 +20,9 @@
         <div class="construction-content">
             <div class="worker-icon">🚧👷‍♂️🚧</div>
             <h1>Under Construction</h1>
-            <p>This website is currently being built. Please check back soon!</p>
+            <p>
+                This website is currently being built. Please check back soon!
+            </p>
             <p class="github-link">
                 In the meantime, check out some of my
                 <!-- prettier-ignore -->
@@ -38,9 +43,15 @@
                                 target="_blank"
                                 rel="noopener"
                             >
-                                <div aria-label={repo.name} class="repo-title">{repo.name}</div>
-                                <div aria-label="{repo.name} description" class="repo-desc">
-                                    {repo.description || "No description provided."}
+                                <div aria-label={repo.name} class="repo-title">
+                                    {repo.name}
+                                </div>
+                                <div
+                                    aria-label="{repo.name} description"
+                                    class="repo-desc"
+                                >
+                                    {repo.description ||
+                                        "No description provided."}
                                 </div>
                                 <div aria-label="Stargazers" class="repo-stars">
                                     ⭐ {repo.stargazers_count ?? 0}

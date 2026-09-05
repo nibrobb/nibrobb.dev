@@ -1,7 +1,9 @@
 <script lang="ts">
     import { page } from "$app/state";
 
-    const reason = $derived(page.url.searchParams.get("reason") ?? "unknown_error");
+    const reason = $derived(
+        page.url.searchParams.get("reason") ?? "unknown_error",
+    );
 </script>
 
 <svelte:head>

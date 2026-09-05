@@ -1,7 +1,7 @@
 import type { RequestHandler } from "./$types";
 import { redirect } from "@sveltejs/kit";
-import { SLACK_CLIENT_ID } from "$env/static/private";
-import { PUBLIC_SLACK_REDIRECT_URI } from "$env/static/public";
+import { SLACK_CLIENT_ID } from "$app/env/private";
+import { PUBLIC_SLACK_REDIRECT_URI } from "$app/env/public";
 
 export const GET: RequestHandler = async () => {
     const user_scopes = ["users.profile:read", "users.profile:write"];

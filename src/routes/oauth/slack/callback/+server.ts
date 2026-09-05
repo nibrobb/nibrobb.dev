@@ -1,5 +1,5 @@
 import type { RequestHandler } from "./$types";
-import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } from "$env/static/private";
+import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } from "$app/env/private";
 import { redirect } from "@sveltejs/kit";
 import { type OauthV2AccessResponse, WebClient } from "@slack/web-api";
 
@@ -57,6 +57,9 @@ export const GET: RequestHandler = async ({ url }) => {
     }
 
     console.error("Error from slack redirect");
-    errorPageUrl.searchParams.set("reason", token_response.error ?? "oauth_exchange_failed");
+    errorPageUrl.searchParams.set(
+        "reason",
+        token_response.error ?? "oauth_exchange_failed",
+    );
     throw redirect(302, errorPageUrl.toString());
 };

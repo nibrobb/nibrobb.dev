@@ -1,10 +1,10 @@
 <script lang="ts">
-    import favicon_light from "$lib/assets/favicon_light.png";
-    import favicon_dark from "$lib/assets/favicon_dark.png";
+    import favicon_light from "#lib/assets/favicon_light.png";
+    import favicon_dark from "#lib/assets/favicon_dark.png";
     import "./under-construction.css";
     import { onMount } from "svelte";
     import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit";
-    import { PUBLIC_GTAG_ID } from "$env/static/public";
+    import { PUBLIC_GTAG_ID } from "$app/env/public";
 
     injectSpeedInsights();
 
@@ -73,8 +73,16 @@
             wait_for_update: 500,
         });
     </script>
-    <link rel="icon" href={favicon_light} media="(prefers-color-scheme: dark)" />
-    <link rel="icon" href={favicon_dark} media="(prefers-color-scheme: light)" />
+    <link
+        rel="icon"
+        href={favicon_light}
+        media="(prefers-color-scheme: dark)"
+    />
+    <link
+        rel="icon"
+        href={favicon_dark}
+        media="(prefers-color-scheme: light)"
+    />
     <meta property="og:type" content="website" />
 </svelte:head>
 
@@ -83,8 +91,12 @@
 {#if showCookieBanner}
     <div class="cookie-banner">
         <p>This site uses cookies for analytics.</p>
-        <button class="cookie-decline cookie-button" onclick={declineCookies}>Decline</button>
-        <button class="cookie-accept cookie-button" onclick={acceptCookies}>Accept</button>
+        <button class="cookie-decline cookie-button" onclick={declineCookies}
+            >Decline</button
+        >
+        <button class="cookie-accept cookie-button" onclick={acceptCookies}
+            >Accept</button
+        >
     </div>
 {/if}
 

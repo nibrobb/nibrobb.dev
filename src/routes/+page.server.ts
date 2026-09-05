@@ -1,4 +1,4 @@
-import { GITHUB_TOKEN } from "$env/static/private";
+import { GITHUB_TOKEN } from "$app/env/private";
 import type { PageServerLoad } from "./$types";
 import { Octokit } from "@octokit/rest";
 
@@ -20,7 +20,8 @@ export const load: PageServerLoad = async ({ setHeaders }) => {
         .slice(0, 4);
 
     setHeaders({
-        "cache-control": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
+        "cache-control":
+            "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
     });
 
     return {

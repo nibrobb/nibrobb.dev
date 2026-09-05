@@ -17,7 +17,10 @@
     />
     <meta property="og:title" content="Luxafor-ui" />
     <meta property="og:url" content="https://www.nibrobb.dev/luxafor-ui" />
-    <meta property="og:description" content="Luxafor-ui is a dashboard for your Luxafor FLAG™" />
+    <meta
+        property="og:description"
+        content="Luxafor-ui is a dashboard for your Luxafor FLAG™"
+    />
     <meta property="og:locale" content="en_US" />
 </svelte:head>
 
@@ -52,7 +55,7 @@
 
     <div class="luxafor-ui-content">
         <h1 class="heading-text">Luxafor-ui</h1>
-        <a href={resolve(`/oauth/slack`)}>
+        <a href={resolve(`oauth/slack`)}>
             <img
                 style="margin: 20px"
                 alt="Add to Slack"

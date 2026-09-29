@@ -1,11 +1,11 @@
 import type { RequestHandler } from "./$types";
 import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } from "$env/static/private";
-import { PUBLIC_SLACK_REDIRECT_URI, BASE_DOMAIN } from "$env/static/public";
+import { PUBLIC_SLACK_REDIRECT_URI, PUBLIC_BASE_DOMAIN } from "$env/static/public";
 import { redirect } from "@sveltejs/kit";
 import { type OauthV2AccessResponse, WebClient } from "@slack/web-api";
 
 export const GET: RequestHandler = async ({ url }) => {
-    const errorPageUrl = new URL("/oauth/slack/error", BASE_DOMAIN);
+    const errorPageUrl = new URL("/oauth/slack/error", PUBLIC_BASE_DOMAIN);
 
     if (url.searchParams.get("error") == "access_denied") {
         errorPageUrl.searchParams.set("reason", "access_denied");
@@ -48,7 +48,7 @@ export const GET: RequestHandler = async ({ url }) => {
     ) {
         console.debug("Slack OAuth token exchange succeeded");
 
-        const successPageUrl = new URL("/oauth/slack/success", BASE_DOMAIN);
+        const successPageUrl = new URL("/oauth/slack/success", PUBLIC_BASE_DOMAIN);
         const hashParams = new URLSearchParams({
             user_token: token_response.authed_user.access_token,
             bot_token: token_response.access_token,

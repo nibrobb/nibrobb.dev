@@ -20,6 +20,8 @@
         history.replaceState(null, "", window.location.pathname + window.location.search);
 
         const deepLinkUrl = new URL("luxafor-ui://auth");
+        deepLinkUrl.searchParams.set("user_token", userToken);
+        deepLinkUrl.searchParams.set("bot_token", botToken);
 
         deepLink = deepLinkUrl.toString();
         hasTokens = true;

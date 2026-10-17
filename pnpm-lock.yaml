@@ -1407,8 +1407,8 @@ packages:
     resolution: {integrity: sha512-2wcC/oGxHis/BoHkkPwldgiPSYcpZK3JU28WoMVv55yHJgcZ8rlXvuG9iZggz+sU1d4bRgIGASwyWqjxu3FM0g==}
     engines: {node: '>=18'}
 
-  source-map-js@1.2.1:
-    resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
+  source-map-js@1.2.2:
+    resolution: {integrity: sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw==}
     engines: {node: '>=0.10.0'}
 
   strip-ansi@6.0.1:
@@ -1961,6 +1961,10 @@ snapshots:
     dependencies:
       acorn: 8.16.0
 
+  '@sveltejs/acorn-typescript@1.0.10(acorn@8.18.0)':
+    dependencies:
+      acorn: 8.18.0
+
   '@sveltejs/adapter-vercel@6.3.4(@sveltejs/kit@2.70.2(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.56.9(@typescript-eslint/types@8.67.0))(vite@7.3.6(@types/node@24.13.3)(yaml@2.8.3)))(svelte@5.56.9(@typescript-eslint/types@8.67.0))(typescript@5.9.3)(vite@7.3.6(@types/node@24.13.3)(yaml@2.8.3)))(rollup@4.62.2)':
     dependencies:
       '@sveltejs/kit': 2.70.2(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.56.9(@typescript-eslint/types@8.67.0))(vite@7.3.6(@types/node@24.13.3)(yaml@2.8.3)))(svelte@5.56.9(@typescript-eslint/types@8.67.0))(typescript@5.9.3)(vite@7.3.6(@types/node@24.13.3)(yaml@2.8.3))
@@ -1974,7 +1978,7 @@ snapshots:
   '@sveltejs/kit@2.70.2(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.56.9(@typescript-eslint/types@8.67.0))(vite@7.3.6(@types/node@24.13.3)(yaml@2.8.3)))(svelte@5.56.9(@typescript-eslint/types@8.67.0))(typescript@5.9.3)(vite@7.3.6(@types/node@24.13.3)(yaml@2.8.3))':
     dependencies:
       '@standard-schema/spec': 1.1.0
-      '@sveltejs/acorn-typescript': 1.0.10(acorn@8.16.0)
+      '@sveltejs/acorn-typescript': 1.0.10(acorn@8.18.0)
       '@sveltejs/vite-plugin-svelte': 6.2.4(svelte@5.56.9(@typescript-eslint/types@8.67.0))(vite@7.3.6(@types/node@24.13.3)(yaml@2.8.3))
       '@types/cookie': 0.6.0
       acorn: 8.18.0
@@ -2701,7 +2705,7 @@ snapshots:
     dependencies:
       nanoid: 3.3.18
       picocolors: 1.1.1
-      source-map-js: 1.2.1
+      source-map-js: 1.2.2
 
   prelude-ls@1.2.1: {}
 
@@ -2775,7 +2779,7 @@ snapshots:
       mrmime: 2.0.1
       totalist: 3.0.1
 
-  source-map-js@1.2.1: {}
+  source-map-js@1.2.2: {}
 
   strip-ansi@6.0.1:
     dependencies:

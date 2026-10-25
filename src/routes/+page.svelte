@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { PageProps } from "./$types.js";
-    import favicon_light from "$lib/assets/favicon_light.png";
+    import favicon_light from "#lib/assets/favicon_light.png";
     let { data }: PageProps = $props();
 </script>
 
@@ -56,7 +56,7 @@
             <div class="progress-bar">
                 <div class="progress-fill"></div>
             </div>
-            <p class="progress-text">Progress: 67%</p>
+            <p class="progress-text">Progress: 69%</p>
         </div>
     </div>
 </main>

@@ -1,7 +1,7 @@
 import type { RequestHandler } from "./$types";
 import { redirect } from "@sveltejs/kit";
-import { SLACK_CLIENT_ID } from "$env/static/private";
-import { PUBLIC_SLACK_REDIRECT_URI } from "$env/static/public";
+import { SLACK_CLIENT_ID } from "$app/env/private";
+import { PUBLIC_SLACK_REDIRECT_URI } from "$app/env/public";
 
 export const GET: RequestHandler = async () => {
     const user_scopes = ["users.profile:read", "users.profile:write"];
@@ -16,5 +16,5 @@ export const GET: RequestHandler = async () => {
     redirect_url.searchParams.set("redirect_uri", PUBLIC_SLACK_REDIRECT_URI);
 
     console.debug(`Redirecting to: ${redirect_url}`);
-    throw redirect(302, redirect_url);
+    throw redirect(302, redirect_url, { external: [redirect_url.origin] });
 };

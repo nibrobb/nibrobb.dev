@@ -1,4 +1,4 @@
-import { GITHUB_TOKEN } from "$env/static/private";
+import { GITHUB_TOKEN } from "$app/env/private";
 import type { PageServerLoad } from "./$types";
 import { Octokit } from "@octokit/rest";
 

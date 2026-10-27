@@ -17,7 +17,6 @@
         <div class="construction-content">
             <div class="worker-icon">🚧👷‍♂️🚧</div>
             <h1>Under Construction</h1>
-            <p>This website is currently being built. Please check back soon!</p>
             <p class="github-link">
                 In the meantime, check out some of my
                 <!-- prettier-ignore -->

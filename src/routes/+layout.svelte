@@ -1,7 +1,7 @@
 <script lang="ts">
     import favicon_light from "#lib/assets/favicon_light.png";
     import favicon_dark from "#lib/assets/favicon_dark.png";
-    import "./under-construction.css";
+    import "./style.css";
     import { onMount } from "svelte";
     import { PUBLIC_GTAG_ID } from "$app/env/public";
 

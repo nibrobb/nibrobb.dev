@@ -8,7 +8,7 @@ pnpm run dev -- --open
 ```
 
 ## Building
+
 ```sh
 pnpm run build
 ```
-

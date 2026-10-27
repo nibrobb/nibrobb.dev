@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import Seo from "#lib/components/Seo.svelte";
 
     let deepLink = "";
     let hasTokens = false;
@@ -33,9 +34,11 @@
     });
 </script>
 
-<svelte:head>
-    <title>Slack Connected | Luxafor-ui</title>
-</svelte:head>
+<Seo
+    title="Slack Connected | Luxafor-ui"
+    description="Luxafor-ui is now connected to Slack."
+    path="/oauth/slack/success"
+/>
 
 <main>
     <div class="construction-container oauth-container">

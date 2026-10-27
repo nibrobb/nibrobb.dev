@@ -1,12 +1,9 @@
 <script lang="ts">
-    import favicon_light from "$lib/assets/favicon_light.png";
-    import favicon_dark from "$lib/assets/favicon_dark.png";
-    import "./under-construction.css";
+    import favicon_light from "#lib/assets/favicon_light.png";
+    import favicon_dark from "#lib/assets/favicon_dark.png";
+    import "./style.css";
     import { onMount } from "svelte";
-    import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit";
-    import { PUBLIC_GTAG_ID } from "$env/static/public";
-
-    injectSpeedInsights();
+    import { PUBLIC_GTAG_ID } from "$app/env/public";
 
     let { children } = $props();
 
@@ -76,6 +73,9 @@
     <link rel="icon" href={favicon_light} media="(prefers-color-scheme: dark)" />
     <link rel="icon" href={favicon_dark} media="(prefers-color-scheme: light)" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="nibrobb.dev" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 {@render children?.()}

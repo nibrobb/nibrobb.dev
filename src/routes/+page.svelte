@@ -1,23 +1,22 @@
 <script lang="ts">
     import type { PageProps } from "./$types.js";
-    import favicon_light from "$lib/assets/favicon_light.png";
+    import Seo from "#lib/components/Seo.svelte";
     let { data }: PageProps = $props();
 </script>
 
-<svelte:head>
-    <link rel="canonical" href="https://www.nibrobb.dev" />
-    <meta property="og:image" content={favicon_light} />
-    <meta property="og:image:alt" content="A doodle of a logo resembling a cross" />
-    <meta property="og:title" content="Nibrobb.dev" />
-    <meta property="og:url" content="https://www.nibrobb.dev" />
-</svelte:head>
+<Seo
+    title="nibrobb.dev"
+    description="Nibrobb's homepage, all about development"
+    path="/"
+    label="Author"
+    data="Nibrobb"
+/>
 
 <main>
     <div class="construction-container">
         <div class="construction-content">
             <div class="worker-icon">🚧👷‍♂️🚧</div>
             <h1>Under Construction</h1>
-            <p>This website is currently being built. Please check back soon!</p>
             <p class="github-link">
                 In the meantime, check out some of my
                 <!-- prettier-ignore -->
@@ -56,7 +55,7 @@
             <div class="progress-bar">
                 <div class="progress-fill"></div>
             </div>
-            <p class="progress-text">Progress: 67%</p>
+            <p class="progress-text">Progress: 69%</p>
         </div>
     </div>
 </main>

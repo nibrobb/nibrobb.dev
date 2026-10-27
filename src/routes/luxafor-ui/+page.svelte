@@ -1,25 +1,18 @@
 <script lang="ts">
     import { resolve } from "$app/paths";
+    import Seo from "#lib/components/Seo.svelte";
 
     // import type { PageProps } from './$types';
     // let { data }: PageProps = $props();
 </script>
 
-<svelte:head>
-    <link rel="canonical" href="https://www.nibrobb.dev/luxafor-ui" />
-    <meta
-        property="og:image"
-        content="https://raw.githubusercontent.com/nibrobb/luxafor-ui/refs/heads/slack-integration/public/gui.png"
-    />
-    <meta
-        property="og:image:alt"
-        content="A Windows® application with eight vertically arranged buttons in different colors; the penultimate button glows bright green, mirroring the lamp's current setting."
-    />
-    <meta property="og:title" content="Luxafor-ui" />
-    <meta property="og:url" content="https://www.nibrobb.dev/luxafor-ui" />
-    <meta property="og:description" content="Luxafor-ui is a dashboard for your Luxafor FLAG™" />
-    <meta property="og:locale" content="en_US" />
-</svelte:head>
+<Seo
+    title="Luxafor-ui"
+    description="Luxafor-ui is a dashboard for your Luxafor FLAG™"
+    path="/luxafor-ui"
+    image="https://raw.githubusercontent.com/nibrobb/luxafor-ui/refs/heads/tauri/public/gui.png"
+    imageAlt="A Windows® application with eight vertically arranged buttons in different colors; the penultimate button glows bright green, mirroring the lamp's current setting."
+/>
 
 <main>
     <style>
@@ -52,7 +45,7 @@
 
     <div class="luxafor-ui-content">
         <h1 class="heading-text">Luxafor-ui</h1>
-        <a href={resolve(`/oauth/slack`)}>
+        <a href={resolve(`oauth/slack`)}>
             <img
                 style="margin: 20px"
                 alt="Add to Slack"
@@ -69,7 +62,7 @@
         />
         <a
             rel="external"
-            href="https://github.com/nibrobb/luxafor-ui/tree/debian-repo?tab=readme-ov-file#installation"
+            href="https://github.com/nibrobb/luxafor-ui/tree/tauri?tab=readme-ov-file#installation"
             target="_blank"
         >
             <h2 id="luxafor-ui-install">Install</h2>

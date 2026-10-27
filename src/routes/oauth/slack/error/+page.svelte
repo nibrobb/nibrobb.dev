@@ -1,12 +1,15 @@
 <script lang="ts">
     import { page } from "$app/state";
+    import Seo from "#lib/components/Seo.svelte";
 
     const reason = $derived(page.url.searchParams.get("reason") ?? "unknown_error");
 </script>
 
-<svelte:head>
-    <title>Slack Connection Failed | Luxafor-ui</title>
-</svelte:head>
+<Seo
+    title="Slack Connection Failed | Luxafor-ui"
+    description="Connecting Luxafor-ui to Slack failed."
+    path="/oauth/slack/error"
+/>
 
 <main>
     <div class="construction-container oauth-container oauth-error-container">

@@ -1,15 +1,17 @@
 import type { RequestHandler } from "./$types";
-import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } from "$env/static/private";
-import { PUBLIC_SLACK_REDIRECT_URI, PUBLIC_BASE_DOMAIN } from "$env/static/public";
+import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } from "$app/env/private";
+import { PUBLIC_SLACK_REDIRECT_URI, PUBLIC_BASE_DOMAIN } from "$app/env/public";
 import { redirect } from "@sveltejs/kit";
 import { type OauthV2AccessResponse, WebClient } from "@slack/web-api";
+
+const redirectOptions = { external: [PUBLIC_BASE_DOMAIN] };
 
 export const GET: RequestHandler = async ({ url }) => {
     const errorPageUrl = new URL("/oauth/slack/error", PUBLIC_BASE_DOMAIN);
 
     if (url.searchParams.get("error") == "access_denied") {
         errorPageUrl.searchParams.set("reason", "access_denied");
-        throw redirect(302, errorPageUrl.toString());
+        throw redirect(302, errorPageUrl.toString(), redirectOptions);
     }
 
     const code = url.searchParams.get("code");
@@ -18,7 +20,7 @@ export const GET: RequestHandler = async ({ url }) => {
     if (!code) {
         console.error("Code was null");
         errorPageUrl.searchParams.set("reason", "missing_code");
-        throw redirect(302, errorPageUrl.toString());
+        throw redirect(302, errorPageUrl.toString(), redirectOptions);
     }
     if (!state) {
         console.error("State was null. But I don't care");
@@ -38,7 +40,7 @@ export const GET: RequestHandler = async ({ url }) => {
     } catch (error) {
         console.error("OAuth callback failed", error);
         errorPageUrl.searchParams.set("reason", "oauth_callback_exception");
-        throw redirect(302, errorPageUrl.toString());
+        throw redirect(302, errorPageUrl.toString(), redirectOptions);
     }
 
     if (
@@ -54,10 +56,10 @@ export const GET: RequestHandler = async ({ url }) => {
             bot_token: token_response.access_token,
         });
         successPageUrl.hash = hashParams.toString();
-        throw redirect(302, successPageUrl.toString());
+        throw redirect(302, successPageUrl.toString(), redirectOptions);
     }
 
     console.error("Error from slack redirect");
     errorPageUrl.searchParams.set("reason", token_response.error ?? "oauth_exchange_failed");
-    throw redirect(302, errorPageUrl.toString());
+    throw redirect(302, errorPageUrl.toString(), redirectOptions);
 };

@@ -3,10 +3,10 @@
 
     // Dimensions are only known for the default image; pass them alongside a custom one
     const DEFAULT_IMAGE = {
-        src: "/bg.png",
+        src: "/og.png",
         alt: "Purple-to-orange gradient background of nibrobb.dev",
-        width: 1920,
-        height: 1080,
+        width: 1200,
+        height: 630,
         type: "image/png",
     };
 

@@ -1,0 +1,41 @@
+# Local variant of argocd-application.yaml for minikube, served on http://nibrobb.test
+# Apply one or the other; both use the same Application name.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nibrobb-dev
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/nibrobb/nibrobb.dev.git
+    # Switch to main once k8s-pilled is merged
+    targetRevision: k8s-pilled
+    path: charts/nibrobb-dev
+    helm:
+      valuesObject:
+        image:
+          tag: "0.1.0"
+        # No TLS locally, so override the https:// origin derived from the ingress host
+        origin: http://nibrobb.test
+        ingress:
+          enabled: true
+          className: nginx
+          hosts:
+            - host: nibrobb.test
+              paths:
+                - path: /
+                  pathType: Prefix
+        secrets:
+          existingSecret: nibrobb-dev-secrets
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nibrobb-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

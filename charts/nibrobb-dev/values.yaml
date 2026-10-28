@@ -1,0 +1,97 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/nibrobb/nibrobb.dev
+  # Defaults to the chart appVersion
+  tag: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Public URL of the site. adapter-node needs it to build absolute URLs and for CSRF checks.
+# Defaults to https://<first ingress host> when ingress is enabled.
+origin: ""
+
+# Runtime secrets: GITHUB_TOKEN, SLACK_CLIENT_ID, SLACK_CLIENT_SECRET
+secrets:
+  # Use a Secret you manage yourself (Sealed Secrets, External Secrets, SOPS, ...).
+  # When set, `values` below is ignored.
+  existingSecret: ""
+  # Only for quick tests; avoid committing real secrets to git
+  values:
+    GITHUB_TOKEN: ""
+    SLACK_CLIENT_ID: ""
+    SLACK_CLIENT_SECRET: ""
+
+# Extra plain environment variables
+env: []
+#  - name: BODY_SIZE_LIMIT
+#    value: "1M"
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: ["ALL"]
+
+service:
+  type: ClusterIP
+  port: 80
+
+containerPort: 3000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: nibrobb.dev
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: nibrobb-dev-tls
+  #    hosts:
+  #      - nibrobb.dev
+
+# "/" calls the GitHub API, so probes use a TCP check to avoid burning rate limit
+livenessProbe:
+  tcpSocket:
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 20
+readinessProbe:
+  tcpSocket:
+    port: http
+  periodSeconds: 10
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 96Mi
+  limits:
+    memory: 256Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

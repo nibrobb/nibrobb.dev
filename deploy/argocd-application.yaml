@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nibrobb-dev
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/nibrobb/nibrobb.dev.git
+    targetRevision: main
+    path: charts/nibrobb-dev
+    helm:
+      valuesObject:
+        image:
+          # Git tag v0.1.0 publishes ghcr.io/nibrobb/nibrobb.dev:0.1.0; bump on each release
+          tag: "0.1.0"
+        ingress:
+          enabled: true
+          className: nginx
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+          hosts:
+            - host: nibrobb.dev
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - secretName: nibrobb-dev-tls
+              hosts:
+                - nibrobb.dev
+        secrets:
+          # Create this Secret out-of-band (kubectl, Sealed Secrets, External Secrets, ...)
+          # with keys GITHUB_TOKEN, SLACK_CLIENT_ID, SLACK_CLIENT_SECRET
+          existingSecret: nibrobb-dev-secrets
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nibrobb-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

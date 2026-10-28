@@ -1,0 +1,15 @@
+.git
+.github
+.idea
+.vscode
+.claude
+.svelte-kit
+.vercel
+build
+node_modules
+charts
+.env*
+!.env.template
+.mcp.json
+Dockerfile
+.dockerignore

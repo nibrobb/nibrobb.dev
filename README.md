@@ -17,7 +17,7 @@ pnpm run build
 
 ```bash
 docker build -t ghcr.io/nibrobb/nibrobb.dev:latest \
-  --build-arg PUBLIC_BASE_DOMAIN=nibrobb.dev \
+  --build-arg PUBLIC_BASE_DOMAIN=https://nibrobb.dev \
   --build-arg PUBLIC_GTAG_ID=... \
   --build-arg PUBLIC_SLACK_REDIRECT_URI=... .
 

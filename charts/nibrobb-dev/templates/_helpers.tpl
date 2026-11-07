@@ -38,3 +38,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- printf "https://%s" (first .Values.ingress.hosts).host }}
 {{- end }}
 {{- end }}
+
+{{- define "nibrobb-dev.image" -}}
+{{- if .Values.image.digest -}}
+{{- printf "%s@%s" .Values.image.repository .Values.image.digest -}}
+{{- else -}}
+{{- printf "%s:%s" .Values.image.repository (.Values.image.tag | default .Chart.AppVersion) -}}
+{{- end -}}
+{{- end }}

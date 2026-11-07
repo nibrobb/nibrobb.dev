@@ -4,6 +4,9 @@ image:
   repository: ghcr.io/nibrobb/nibrobb.dev
   # Defaults to the chart appVersion
   tag: ""
+  # Optional sha256 digest (e.g. "sha256:abc..."). When set it takes precedence over tag and
+  # pins the exact image. Argo CD Image Updater writes this for environments tracking main.
+  digest: ""
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

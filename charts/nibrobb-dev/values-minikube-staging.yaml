@@ -1,0 +1,25 @@
+# Local minikube staging: http://staging.nibrobb.test (no TLS)
+image:
+  # Built from main on every push; pulled fresh on each pod start
+  tag: "main"
+  pullPolicy: Always
+
+origin: http://staging.nibrobb.test
+
+env:
+  - name: BASE_DOMAIN
+    value: "http://staging.nibrobb.test"
+  - name: SLACK_REDIRECT_URI
+    value: "http://staging.nibrobb.test/oauth/slack/callback"
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: staging.nibrobb.test
+      paths:
+        - path: /
+          pathType: Prefix
+
+secrets:
+  existingSecret: nibrobb-dev-secrets

@@ -25,3 +25,6 @@ vite.config.ts.timestamp-*
 
 # LLMs
 .mcp.json
+
+# Kubernetes secret manifests with real values
+/deploy/secrets

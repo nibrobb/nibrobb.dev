@@ -1,0 +1,30 @@
+# Staging: https://staging.nibrobb.dev
+image:
+  # Built from main on every push; pulled fresh on each pod start
+  tag: "main"
+  pullPolicy: Always
+
+env:
+  - name: BASE_DOMAIN
+    value: "https://staging.nibrobb.dev"
+  - name: SLACK_REDIRECT_URI
+    value: "https://staging.nibrobb.dev/oauth/slack/callback"
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: staging.nibrobb.dev
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: nibrobb-dev-staging-tls
+      hosts:
+        - staging.nibrobb.dev
+
+secrets:
+  # Separate Secret in the nibrobb-dev-staging namespace, same keys as prod
+  existingSecret: nibrobb-dev-secrets

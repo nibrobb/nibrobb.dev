@@ -1,0 +1,18 @@
+# Local minikube: apply with `kubectl apply -k deploy/minikube`
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../base
+patches:
+  - target:
+      kind: ApplicationSet
+      name: nibrobb-dev
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: nibrobb-dev-minikube
+      - op: add
+        path: /spec/generators/0/git/files
+        value:
+          - path: charts/nibrobb-dev/values-minikube.yaml
+          - path: charts/nibrobb-dev/values-minikube-staging.yaml

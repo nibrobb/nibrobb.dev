@@ -1,7 +1,6 @@
 import type { RequestHandler } from "./$types";
 import { redirect } from "@sveltejs/kit";
-import { SLACK_CLIENT_ID } from "$app/env/private";
-import { PUBLIC_SLACK_REDIRECT_URI } from "$app/env/public";
+import { SLACK_CLIENT_ID, SLACK_REDIRECT_URI } from "$app/env/private";
 
 export const GET: RequestHandler = async () => {
     const user_scopes = ["users.profile:read", "users.profile:write"];
@@ -13,7 +12,7 @@ export const GET: RequestHandler = async () => {
     redirect_url.searchParams.set("client_id", SLACK_CLIENT_ID);
     redirect_url.searchParams.set("user_scope", user_scopes_string);
     redirect_url.searchParams.set("scope", bot_scopes_string);
-    redirect_url.searchParams.set("redirect_uri", PUBLIC_SLACK_REDIRECT_URI);
+    redirect_url.searchParams.set("redirect_uri", SLACK_REDIRECT_URI);
 
     console.debug(`Redirecting to: ${redirect_url}`);
     throw redirect(302, redirect_url, { external: [redirect_url.origin] });

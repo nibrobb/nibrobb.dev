@@ -8,3 +8,13 @@ minimumReleaseAgeExclude:
 
 onlyBuiltDependencies:
   - esbuild
+
+overrides:
+  glob@>=9.0.0 <=14.0.1: ">=14.0.2"
+  minimatch@>=7.0.0 <11.0.1: ">=11.0.1"
+
+auditConfig:
+  ignoreGhsas:
+    # deepmerge mergeObject() prototype poisoning. No patched release exists.
+    # Only reached through @sveltejs/vite-plugin-svelte (build tooling).
+    - GHSA-gcqx-w48m-w2h4

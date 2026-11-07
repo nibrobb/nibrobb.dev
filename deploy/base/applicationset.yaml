@@ -20,9 +20,17 @@ spec:
         repoURL: https://github.com/nibrobb/nibrobb.dev.git
         revision: HEAD
         # files: added per overlay
+  # Image Updater writes the digest into helm.parameters on each Application. Without this, the
+  # ApplicationSet controller would reset those parameters to the template on every reconcile.
+  ignoreApplicationDifferences:
+    - jsonPointers:
+        - /spec/source/helm/parameters
   template:
     metadata:
       name: 'nibrobb-dev-{{ .path.basename | trimPrefix "values-" | trimSuffix ".yaml" }}'
+      labels:
+        # Used by deploy/base/imageupdater.yaml to select every environment except prod
+        nibrobb.dev/environment: '{{ .path.basename | trimPrefix "values-" | trimSuffix ".yaml" }}'
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:

@@ -1,0 +1,32 @@
+# Argo CD Image Updater: watches ghcr.io/nibrobb/nibrobb.dev:main and writes its current digest into
+# the image.digest Helm parameter of every nibrobb-dev Application except prod. Prod stays pinned to
+# its release tag (see values-prod.yaml). All configuration lives here; the Applications carry no
+# Image Updater annotations. The controller must be installed in the argocd namespace, see README.md.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: nibrobb-dev
+  namespace: argocd
+spec:
+  # Write the digest into the Application's Helm parameters through the Argo CD API (no git commits)
+  writeBackConfig:
+    method: argocd
+  applicationRefs:
+    - namePattern: "nibrobb-dev-*"
+      labelSelectors:
+        matchExpressions:
+          # The label is set from the values file name by deploy/base/applicationset.yaml
+          - key: nibrobb.dev/environment
+            operator: NotIn
+            values: ["prod"]
+      images:
+        - alias: app
+          imageName: ghcr.io/nibrobb/nibrobb.dev:main
+          commonUpdateSettings:
+            # Follow the mutable main tag by its digest
+            updateStrategy: digest
+          manifestTargets:
+            helm:
+              name: image.repository
+              # The chart renders repository@digest when image.digest is set
+              tag: image.digest

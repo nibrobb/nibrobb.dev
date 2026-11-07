@@ -2,8 +2,15 @@ name: Publish Docker image
 
 on:
   push:
-    tags: 
+    branches:
+      - main
+    tags:
       - "v*"
+    # Chart and deploy changes don't affect the image; skip the build for those
+    paths-ignore:
+      - "charts/**"
+      - "deploy/**"
+      - "**.md"
   workflow_dispatch: {}
 
 concurrency:
@@ -37,10 +44,11 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          # v1.2.3 -> 1.2.3, 1.2, latest
+          # Pushes to main    -> main, sha-<short>   (staging and minikube track these)
+          # Tags v1.2.3       -> 1.2.3, sha-<short>  (prod pins 1.2.3 via values-prod.yaml)
           tags: |
+            type=ref,event=branch
             type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
             type=sha
             
       - uses: docker/build-push-action@v7
@@ -52,8 +60,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           # Public variables are inlined at build time; set them as repository variables
           build-args: |
-            PUBLIC_BASE_DOMAIN=${{ vars.PUBLIC_BASE_DOMAIN }}
             PUBLIC_GTAG_ID=${{ vars.PUBLIC_GTAG_ID }}
-            PUBLIC_SLACK_REDIRECT_URI=${{ vars.PUBLIC_SLACK_REDIRECT_URI }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

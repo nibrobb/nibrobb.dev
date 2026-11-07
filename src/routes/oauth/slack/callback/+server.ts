@@ -1,13 +1,17 @@
 import type { RequestHandler } from "./$types";
-import { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } from "$app/env/private";
-import { PUBLIC_SLACK_REDIRECT_URI, PUBLIC_BASE_DOMAIN } from "$app/env/public";
+import {
+    SLACK_CLIENT_ID,
+    SLACK_CLIENT_SECRET,
+    SLACK_REDIRECT_URI,
+    BASE_DOMAIN,
+} from "$app/env/private";
 import { redirect } from "@sveltejs/kit";
 import { type OauthV2AccessResponse, WebClient } from "@slack/web-api";
 
-const redirectOptions = { external: [PUBLIC_BASE_DOMAIN] };
+const redirectOptions = { external: [BASE_DOMAIN] };
 
 export const GET: RequestHandler = async ({ url }) => {
-    const errorPageUrl = new URL("/oauth/slack/error", PUBLIC_BASE_DOMAIN);
+    const errorPageUrl = new URL("/oauth/slack/error", BASE_DOMAIN);
 
     if (url.searchParams.get("error") == "access_denied") {
         errorPageUrl.searchParams.set("reason", "access_denied");
@@ -35,7 +39,7 @@ export const GET: RequestHandler = async ({ url }) => {
             code,
             client_id: SLACK_CLIENT_ID,
             client_secret: SLACK_CLIENT_SECRET,
-            redirect_uri: PUBLIC_SLACK_REDIRECT_URI,
+            redirect_uri: SLACK_REDIRECT_URI,
         });
     } catch (error) {
         console.error("OAuth callback failed", error);
@@ -50,7 +54,7 @@ export const GET: RequestHandler = async ({ url }) => {
     ) {
         console.debug("Slack OAuth token exchange succeeded");
 
-        const successPageUrl = new URL("/oauth/slack/success", PUBLIC_BASE_DOMAIN);
+        const successPageUrl = new URL("/oauth/slack/success", BASE_DOMAIN);
         const hashParams = new URLSearchParams({
             user_token: token_response.authed_user.access_token,
             bot_token: token_response.access_token,

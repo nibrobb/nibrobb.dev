@@ -1,0 +1,18 @@
+# Real cluster (prod + staging): apply with `kubectl apply -k deploy/prod-staging`
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../base
+patches:
+  - target:
+      kind: ApplicationSet
+      name: nibrobb-dev
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: nibrobb-dev-prod-staging
+      - op: add
+        path: /spec/generators/0/git/files
+        value:
+          - path: charts/nibrobb-dev/values-prod.yaml
+          - path: charts/nibrobb-dev/values-staging.yaml

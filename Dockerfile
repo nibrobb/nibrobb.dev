@@ -14,15 +14,11 @@ RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
     pnpm install --frozen-lockfile
 COPY . .
 # Public variables are static and get inlined into the client bundle at build time
-ARG PUBLIC_BASE_DOMAIN=""
 ARG PUBLIC_GTAG_ID=""
-ARG PUBLIC_SLACK_REDIRECT_URI=""
 ENV ADAPTER=node \
-    PUBLIC_BASE_DOMAIN=${PUBLIC_BASE_DOMAIN} \
-    PUBLIC_GTAG_ID=${PUBLIC_GTAG_ID} \
-    PUBLIC_SLACK_REDIRECT_URI=${PUBLIC_SLACK_REDIRECT_URI}
-# Private variables are read at runtime; blank placeholders satisfy route analysis
-RUN GITHUB_TOKEN="" SLACK_CLIENT_ID="" SLACK_CLIENT_SECRET="" pnpm run build
+    PUBLIC_GTAG_ID=${PUBLIC_GTAG_ID}
+# Private variables (incl. BASE_DOMAIN, SLACK_REDIRECT_URI) are read at runtime; blank placeholders satisfy route analysis
+RUN GITHUB_TOKEN="" SLACK_CLIENT_ID="" SLACK_CLIENT_SECRET="" SLACK_REDIRECT_URI="" BASE_DOMAIN="" pnpm run build
 
 FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./

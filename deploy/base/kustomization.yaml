@@ -1,0 +1,5 @@
+# Shared base; consumed by the overlays in deploy/minikube and deploy/prod-staging
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - applicationset.yaml

@@ -1,0 +1,26 @@
+# Local minikube: http://nibrobb.test (no TLS, served through the local ingress)
+image:
+  # Built from main on every push; pulled fresh on each pod start
+  tag: "main"
+  pullPolicy: Always
+
+# No TLS locally, so override the https:// origin derived from the ingress host
+origin: http://nibrobb.test
+
+env:
+  - name: BASE_DOMAIN
+    value: "http://nibrobb.test"
+  - name: SLACK_REDIRECT_URI
+    value: "http://nibrobb.test/oauth/slack/callback"
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: nibrobb.test
+      paths:
+        - path: /
+          pathType: Prefix
+
+secrets:
+  existingSecret: nibrobb-dev-secrets

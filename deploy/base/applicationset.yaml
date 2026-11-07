@@ -1,0 +1,47 @@
+# Shared ApplicationSet template. Each overlay (deploy/minikube, deploy/prod-staging) adds the
+# values files it manages to the git generator below and renames the ApplicationSet.
+#
+# One Application is created per listed charts/nibrobb-dev/values-<env>.yaml:
+#   values-prod.yaml             -> nibrobb-dev-prod             (git tag v<image.tag>)
+#   values-staging.yaml          -> nibrobb-dev-staging          (HEAD)
+#   values-minikube.yaml         -> nibrobb-dev-minikube         (HEAD)
+#   values-minikube-staging.yaml -> nibrobb-dev-minikube-staging (HEAD)
+# Each Application deploys to namespace nibrobb-dev-<env>.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: nibrobb-dev
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: https://github.com/nibrobb/nibrobb.dev.git
+        revision: HEAD
+        # files: added per overlay
+  template:
+    metadata:
+      name: 'nibrobb-dev-{{ .path.basename | trimPrefix "values-" | trimSuffix ".yaml" }}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/nibrobb/nibrobb.dev.git
+        # Prod deploys the release tag matching its image tag (image.tag "0.1.0" -> git tag v0.1.0).
+        # Every other environment tracks HEAD.
+        targetRevision: '{{ if eq .path.basename "values-prod.yaml" }}v{{ .image.tag }}{{ else }}HEAD{{ end }}'
+        path: charts/nibrobb-dev
+        helm:
+          valueFiles:
+            - '{{ .path.basename }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'nibrobb-dev-{{ .path.basename | trimPrefix "values-" | trimSuffix ".yaml" }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

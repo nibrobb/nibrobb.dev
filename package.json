@@ -15,31 +15,31 @@
         "fix": "eslint . --fix && prettier --write ."
     },
     "devDependencies": {
-        "@dotenvx/dotenvx": "^1.75.1",
+        "@dotenvx/dotenvx": "^2.38.2",
         "@eslint/compat": "^2.1.1",
         "@eslint/js": "^10.0.1",
-        "@octokit/openapi-types": "^25.1.0",
-        "@sveltejs/adapter-vercel": "^7.0.2",
-        "@sveltejs/kit": "^3.1.0",
+        "@octokit/openapi-types": "^29.0.1",
+        "@sveltejs/adapter-vercel": "^7.0.3",
+        "@sveltejs/kit": "^3.2.0",
         "@sveltejs/load-config": "^0.2.3",
         "@sveltejs/vite-plugin-svelte": "^7.3.1",
         "@types/gtag.js": "^0.0.20",
-        "@types/node": "^24.19.2",
-        "eslint": "^10.13.0",
+        "@types/node": "^26.6.6",
+        "eslint": "^10.15.0",
         "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-svelte": "^3.23.1",
-        "globals": "^16.5.0",
-        "prettier": "^3.9.10",
-        "prettier-plugin-svelte": "^3.5.2",
+        "eslint-plugin-svelte": "^3.24.1",
+        "globals": "^17.14.0",
+        "prettier": "^3.10.1",
+        "prettier-plugin-svelte": "^4.1.1",
         "svelte": "^5.57.3",
-        "svelte-check": "^4.7.7",
+        "svelte-check": "^4.7.8",
         "typescript": "^6.0.3",
-        "typescript-eslint": "^8.72.1",
-        "vite": "^8.3.5"
+        "typescript-eslint": "^8.72.2",
+        "vite": "^8.3.8"
     },
     "dependencies": {
         "@octokit/rest": "^22.0.1",
-        "@slack/web-api": "^8.2.0"
+        "@slack/web-api": "^8.4.0"
     },
     "overrides": {
         "@isaacs/brace-expansion@<=5.0.0": ">=5.0.1",

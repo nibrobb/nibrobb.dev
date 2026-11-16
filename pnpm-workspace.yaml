@@ -3,8 +3,5 @@ allowBuilds:
 
 minimumReleaseAge: 1440
 
-minimumReleaseAgeExclude:
-  - picomatch@4.0.4
-
 onlyBuiltDependencies:
   - esbuild

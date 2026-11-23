@@ -7,10 +7,12 @@ const octokit = new Octokit({ auth: GITHUB_TOKEN });
 // The node server has no shared HTTP cache in front of it, so cache the GitHub result in-process.
 // This is per pod: each replica refreshes at most once per TTL.
 const CACHE_TTL_MS = 60 * 60 * 1000;
+const RETRY_BACKOFF_MS = 5 * 60 * 1000;
 
 type Repo = Awaited<ReturnType<typeof fetchTopRepos>>[number];
 
 let cached: { repos: Repo[]; fetchedAt: number } | undefined;
+let retryAfter = 0;
 let inFlight: Promise<Repo[]> | undefined;
 
 async function fetchTopRepos() {
@@ -34,10 +36,16 @@ async function getTopRepos(): Promise<Repo[]> {
         return cached.repos;
     }
 
+    // After a failed refresh, keep serving stale data until the retry deadline
+    if (cached && Date.now() < retryAfter) {
+        return cached.repos;
+    }
+
     // Share one refresh between concurrent requests instead of calling GitHub once per request
     inFlight ??= fetchTopRepos()
         .then((repos) => {
             cached = { repos, fetchedAt: Date.now() };
+            retryAfter = 0;
             return repos;
         })
         .finally(() => {
@@ -49,6 +57,7 @@ async function getTopRepos(): Promise<Repo[]> {
     } catch (error) {
         // Rate limits or network errors: serve stale data rather than failing the homepage
         if (cached) {
+            retryAfter = Date.now() + RETRY_BACKOFF_MS;
             console.warn("GitHub fetch failed, serving stale repos", error);
             return cached.repos;
         }

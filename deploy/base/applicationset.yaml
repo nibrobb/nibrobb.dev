@@ -22,7 +22,7 @@ spec:
         # files: added per overlay
   template:
     metadata:
-      name: 'nibrobb-dev-{{ .path.basename | trimPrefix "values-" | trimSuffix ".yaml" }}'
+      name: 'nibrobb-dev-{{ .path.filename | trimPrefix "values-" | trimSuffix ".yaml" }}'
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
@@ -31,14 +31,19 @@ spec:
         repoURL: https://github.com/nibrobb/nibrobb.dev.git
         # Prod deploys the release tag matching its image tag (image.tag "0.1.0" -> git tag v0.1.0).
         # Every other environment tracks HEAD.
-        targetRevision: '{{ if eq .path.basename "values-prod.yaml" }}v{{ .image.tag }}{{ else }}HEAD{{ end }}'
+        targetRevision: '{{ if eq .path.filename "values-prod.yaml" }}v{{ .image.tag }}{{ else }}HEAD{{ end }}'
         path: charts/nibrobb-dev
         helm:
           valueFiles:
-            - '{{ .path.basename }}'
+            - '{{ .path.filename }}'
+          # The generator reads image.tag from HEAD, but Helm loads values from the target revision
+          # (the release tag for prod), so pass the tag explicitly to deploy the matching image.
+          parameters:
+            - name: image.tag
+              value: '{{ .image.tag }}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: 'nibrobb-dev-{{ .path.basename | trimPrefix "values-" | trimSuffix ".yaml" }}'
+        namespace: 'nibrobb-dev-{{ .path.filename | trimPrefix "values-" | trimSuffix ".yaml" }}'
       syncPolicy:
         automated:
           prune: true

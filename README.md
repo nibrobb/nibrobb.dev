@@ -70,9 +70,11 @@ won't restart the pods for a new image under the same tag, so after a `main` bui
 **Local (minikube)**
 
 ```bash
-kubectl create namespace nibrobb-dev-minikube
-kubectl -n nibrobb-dev-minikube create secret generic nibrobb-dev-secrets \
-  --from-literal=GITHUB_TOKEN=... --from-literal=SLACK_CLIENT_ID=... --from-literal=SLACK_CLIENT_SECRET=...
+for ns in nibrobb-dev-minikube nibrobb-dev-minikube-staging; do
+  kubectl create namespace "$ns"
+  kubectl -n "$ns" create secret generic nibrobb-dev-secrets \
+    --from-literal=GITHUB_TOKEN=... --from-literal=SLACK_CLIENT_ID=... --from-literal=SLACK_CLIENT_SECRET=...
+done
 kubectl apply -k deploy/minikube
 ```
 
